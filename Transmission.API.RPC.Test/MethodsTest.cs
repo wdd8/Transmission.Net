@@ -47,7 +47,22 @@ namespace Transmission.API.RPC.Test
 			Assert.IsTrue(newTorrentInfo.ID != 0);
         }
 
-		[TestMethod]
+        [TestMethod]
+        public void AddTorrent_Magnet_Test()
+        {
+            var torrent = new NewTorrent
+            {
+                Filename = "magnet:?xt=urn:btih:5bcb7e72aec774997622af7de5471d71e17f1db8&dn=ubuntu-12.04.5-desktop-amd64.iso&tr=http%3A%2F%2Ftorrent.ubuntu.com%3A6969%2Fannounce&tr=http%3A%2F%2Fipv6.torrent.ubuntu.com%3A6969%2Fannounce",
+                Paused = false
+            };
+
+            var newTorrentInfo = client.TorrentAdd(torrent);
+
+            Assert.IsNotNull(newTorrentInfo);
+            Assert.IsTrue(newTorrentInfo.ID != 0);
+        }
+
+        [TestMethod]
 		public void GetTorrentInfo_Test()
 		{
 			var torrentsInfo = client.TorrentGet(TorrentFields.ALL_FIELDS);
@@ -129,23 +144,20 @@ namespace Transmission.API.RPC.Test
 			//Save old speed limit up
 			var oldSpeedLimit = sessionInformation.SpeedLimitUp;
 
-            //Set new speed limit
-			sessionInformation.SpeedLimitUp = 200;
-
             //Set new session settings
-			client.SetSessionSettings(sessionInformation);
+			client.SetSessionSettings(new SessionSettings() { SpeedLimitUp = 100 });
 
             //Get new session information
             var newSessionInformation = client.GetSessionInformation();
 
 			//Check new speed limit
-			Assert.AreEqual(newSessionInformation.SpeedLimitUp, 200);
+			Assert.AreEqual(newSessionInformation.SpeedLimitUp, 100);
             
 			//Restore speed limit
             newSessionInformation.SpeedLimitUp = oldSpeedLimit;
 
             //Set new session settinhs
-            client.SetSessionSettings(newSessionInformation);
+            client.SetSessionSettings(new SessionSettings() { SpeedLimitUp = oldSpeedLimit });
         }
 
         #endregion
