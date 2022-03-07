@@ -1,7 +1,6 @@
-﻿using System;
-using System.Text;
-using Transmission.API.RPC.Entity;
+﻿using System.Text;
 using Transmission.API.RPC.Arguments;
+using Transmission.API.RPC.Entity;
 
 namespace Transmission.API.RPC
 {
@@ -54,16 +53,16 @@ namespace Transmission.API.RPC
         /// <param name="password">Password</param>
         public Client(string url, string sessionID = null, string login = null, string password = null)
         {
-            this.Url = url;
-            this.SessionID = sessionID;
+            Url = url;
+            SessionID = sessionID;
 
-            if (!String.IsNullOrWhiteSpace(login))
+            if (!string.IsNullOrWhiteSpace(login))
             {
                 var authBytes = Encoding.UTF8.GetBytes(login + ":" + password);
                 var encoded = Convert.ToBase64String(authBytes);
 
-                this._authorization = "Basic " + encoded;
-                this._needAuthorization = true;
+                _authorization = "Basic " + encoded;
+                _needAuthorization = true;
             }
         }
 

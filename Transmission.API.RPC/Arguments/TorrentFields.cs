@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Transmission.API.RPC.Entity
+﻿namespace Transmission.API.RPC.Entity
 {
     /// <summary>
     /// Torrent fields
@@ -386,11 +380,7 @@ namespace Transmission.API.RPC.Entity
         /// <summary>
         /// All fields
         /// </summary>
-        public static string[] ALL_FIELDS
-        {
-            get
-            {
-                return new string[] 
+        public static string[] ALL_FIELDS => new string[]
                 {
                     #region ALL FIELDS
                     ACTIVITY_DATE,
@@ -469,7 +459,5 @@ namespace Transmission.API.RPC.Entity
                     WEB_SEEDS_SENDING_TO_US,
                     #endregion
                 };
-            }
-        }
     }
 }

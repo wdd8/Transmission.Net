@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Transmission.API.RPC.Arguments;
+﻿using Transmission.API.RPC.Arguments;
 using Transmission.API.RPC.Entity;
 
 namespace Transmission.API.RPC

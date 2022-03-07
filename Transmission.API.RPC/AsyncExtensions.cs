@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Transmission.API.RPC
+﻿namespace Transmission.API.RPC
 {
     /// <summary>
     /// Async extension
@@ -20,7 +14,8 @@ namespace Transmission.API.RPC
             try
             {
                 task.Wait();
-            } catch(Exception e)
+            }
+            catch (Exception e)
             {
                 if (e.InnerException != null)
                 {

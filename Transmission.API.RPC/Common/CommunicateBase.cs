@@ -1,9 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Transmission.API.RPC.Common
 {
@@ -39,7 +34,7 @@ namespace Transmission.API.RPC.Common
         /// <returns></returns>
         public T Deserialize<T>()
         {
-            var argumentsString = JsonConvert.SerializeObject(this.Arguments);
+            var argumentsString = JsonConvert.SerializeObject(Arguments);
             return JsonConvert.DeserializeObject<T>(argumentsString);
         }
     }
