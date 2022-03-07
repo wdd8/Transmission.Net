@@ -12,7 +12,7 @@ namespace Transmission.API.RPC.Test
     public class MethodsTest
     {
         const string FILE_PATH = "./Data/ubuntu-10.04.4-server-amd64.iso.torrent";
-        const string HOST = "http://192.168.1.50:9091/transmission/rpc";
+        const string HOST = "http://localhost:9091/transmission/rpc";
         const string SESSION_ID = "";
 
         Client client = new Client(HOST, SESSION_ID);
