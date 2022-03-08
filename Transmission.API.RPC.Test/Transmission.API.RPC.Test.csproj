@@ -25,6 +25,9 @@
     <None Update="Data\ubuntu-10.04.4-server-amd64.iso.torrent">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Data\ubuntu-21.10-desktop-amd64.iso.torrent">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

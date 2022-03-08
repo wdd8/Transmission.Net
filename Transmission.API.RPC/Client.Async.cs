@@ -251,8 +251,7 @@ namespace Transmission.API.RPC
         /// <param name="ids"></param>
         public async Task TorrentQueueMoveUpAsync(int[] ids)
         {
-            var request = new TransmissionRequest("queue-move-up", new Dictionary<string, object> { { "ids", ids } });
-            _ = await SendRequestAsync(request);
+            _ = await SendRequestAsync(new("queue-move-up", new Dictionary<string, object> { { "ids", ids } }));
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Transmission.API.RPC.Arguments;
 using Transmission.API.RPC.Entity;
 
@@ -10,15 +11,13 @@ namespace Transmission.API.RPC.Test
     [TestClass]
     public class MethodsTest
     {
-        private const string FILE_PATH = "./Data/ubuntu-10.04.4-server-amd64.iso.torrent";
+        private readonly string FILE_PATH = AppDomain.CurrentDomain.BaseDirectory
+                                            + "./Data/ubuntu-21.10-desktop-amd64.iso.torrent";
         private const string HOST = "http://localhost:9091/transmission/rpc";
         private const string SESSION_ID = "";
         private readonly Client client = new(HOST, SESSION_ID);
 
-        #region Torrent Test
-
-        [TestMethod]
-        public void AddTorrent_Test()
+        public async Task<NewTorrentInfo> TorrentAddAsync()
         {
             if (!File.Exists(FILE_PATH))
             {
@@ -31,9 +30,6 @@ namespace Transmission.API.RPC.Test
 
             string encodedData = Convert.ToBase64String(filebytes);
 
-            //The path relative to the server (priority than the metadata)
-            //string filename = "/DataVolume/shares/Public/Transmission/torrents/ubuntu-10.04.4-server-amd64.iso.torrent";
-
             var torrent = new NewTorrent
             {
                 //Filename = filename,
@@ -41,7 +37,16 @@ namespace Transmission.API.RPC.Test
                 Paused = true
             };
 
-            var newTorrentInfo = client.TorrentAdd(torrent);
+            return await client.TorrentAddAsync(torrent);
+        }
+
+        #region Torrent Test
+
+        [TestMethod]
+        public async Task AddTorrent_Test()
+        {
+
+            var newTorrentInfo = await TorrentAddAsync();
 
             Assert.IsNotNull(newTorrentInfo);
             Assert.IsTrue(newTorrentInfo.ID != 0);
@@ -97,10 +102,11 @@ namespace Transmission.API.RPC.Test
         }
 
         [TestMethod]
-        public void RenamePathTorrent_Test()
+        public async Task RenamePathTorrent_Test()
         {
+            var newTorrentInfo = await TorrentAddAsync();
             var torrentsInfo = client.TorrentGet(TorrentFields.ALL_FIELDS);
-            var torrentInfo = torrentsInfo.Torrents.FirstOrDefault();
+            var torrentInfo = torrentsInfo.Torrents.First(t => t.ID == newTorrentInfo.ID);
             Assert.IsNotNull(torrentInfo, "Torrent not found");
 
             var result = client.TorrentRenamePath(torrentInfo.ID, torrentInfo.Files[0].Name, "test_" + torrentInfo.Files[0].Name);
@@ -110,10 +116,10 @@ namespace Transmission.API.RPC.Test
         }
 
         [TestMethod]
-        public void RemoveTorrent_Test()
+        public async Task RemoveTorrent_Test()
         {
             var torrentsInfo = client.TorrentGet(TorrentFields.ALL_FIELDS);
-            var torrentInfo = torrentsInfo.Torrents.FirstOrDefault();
+            var torrentInfo = await TorrentAddAsync();
             Assert.IsNotNull(torrentInfo, "Torrent not found");
 
             client.TorrentRemove(new int[] { torrentInfo.ID });
