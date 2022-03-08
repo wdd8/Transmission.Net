@@ -95,7 +95,7 @@ namespace Transmission.API.RPC.Test
 
             client.TorrentSet(settings);
 
-            torrentsInfo = client.TorrentGet(TorrentFields.ALL_FIELDS, torrentInfo.ID);
+            torrentsInfo = client.TorrentGet(TorrentFields.ALL_FIELDS, torrentInfo.Id);
             torrentInfo = torrentsInfo.Torrents.FirstOrDefault();
 
             Assert.IsFalse(trackerCount == torrentInfo.Trackers.Length);
@@ -106,10 +106,10 @@ namespace Transmission.API.RPC.Test
         {
             var newTorrentInfo = await TorrentAddAsync();
             var torrentsInfo = client.TorrentGet(TorrentFields.ALL_FIELDS);
-            var torrentInfo = torrentsInfo.Torrents.First(t => t.ID == newTorrentInfo.ID);
+            var torrentInfo = torrentsInfo.Torrents.First(t => t.Id == newTorrentInfo.ID);
             Assert.IsNotNull(torrentInfo, "Torrent not found");
 
-            var result = client.TorrentRenamePath(torrentInfo.ID, torrentInfo.Files[0].Name, "test_" + torrentInfo.Files[0].Name);
+            var result = client.TorrentRenamePath(torrentInfo.Id, torrentInfo.Files[0].Name, "test_" + torrentInfo.Files[0].Name);
 
             Assert.IsNotNull(result, "Torrent not found");
             Assert.IsTrue(result.ID != 0);
@@ -126,7 +126,7 @@ namespace Transmission.API.RPC.Test
 
             torrentsInfo = client.TorrentGet(TorrentFields.ALL_FIELDS);
 
-            Assert.IsFalse(torrentsInfo.Torrents.Any(t => t.ID == torrentInfo.ID));
+            Assert.IsFalse(torrentsInfo.Torrents.Any(t => t.Id == torrentInfo.ID));
         }
 
         #endregion
