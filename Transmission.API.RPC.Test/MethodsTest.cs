@@ -90,7 +90,7 @@ namespace Transmission.API.RPC.Test
             TorrentSettings settings = new()
             {
                 IDs = new object[] { torrentInfo.HashString },
-                TrackerRemove = new int[] { trackerInfo.ID }
+                TrackerRemove = new int[] { trackerInfo.Id }
             };
 
             client.TorrentSet(settings);

@@ -4,7 +4,7 @@ using static Transmission.API.RPC.Entity.TorrentFields;
 
 namespace Transmission.API.RPC.Entity
 {
-    public interface ITorrentInfo: ITorrentAttributes
+    public interface ITorrentInfo : ITorrentAttributes
     {
         /// <summary>
         /// The torrent's unique Id.
@@ -84,50 +84,43 @@ namespace Transmission.API.RPC.Entity
         public long EditDate { get; set; }
 
         /// <summary>
-        /// Error
+        /// Defines what kind of text is in errorString.
+        /// 
+        /// See <seealso cref="ErrorString"/>
         /// </summary>
         [JsonProperty(ERROR)]
-        public int Error { get; set; }
+        public TorrentError Error { get; set; }
 
         /// <summary>
-        /// Error string
+        /// A warning or error message regarding the torrent.
+        /// 
+        /// <seealso cref="Error"/>
         /// </summary>
         [JsonProperty(ERROR_STRING)]
         public string ErrorString { get; set; }
 
         /// <summary>
-        /// ETA
+        /// If downloading, estimated number of seconds left until the torrent is done.
+        /// If seeding, estimated number of seconds left until seed ratio is reached.
         /// </summary>
         [JsonProperty(ETA)]
         public int Eta { get; set; }
 
         /// <summary>
-        /// ETA idle
+        /// If seeding, number of seconds left until the idle time limit is reached.
         /// </summary>
         [JsonProperty(ETA_IDLE)]
         public int EtaIdle { get; set; }
 
-        /// <summary>
-        /// File count
-        /// </summary>
         [JsonProperty(FILE_COUNT)]
         public int FileCount { get; set; }
 
-        /// <summary>
-        /// Files
-        /// </summary>
         [JsonProperty(FILES)]
-        public TransmissionTorrentFiles[] Files { get; set; }
+        public ITransmissionTorrentFile[] Files { get; set; }
 
-        /// <summary>
-        /// File stats
-        /// </summary>
         [JsonProperty(FILE_STATS)]
-        public TransmissionTorrentFileStats[] FileStats { get; set; }
+        public ITransmissionTorrentFileStats[] FileStats { get; set; }
 
-        /// <summary>
-        /// Hash string
-        /// </summary>
         [JsonProperty(HASH_STRING)]
         public string HashString { get; set; }
 
@@ -146,33 +139,18 @@ namespace Transmission.API.RPC.Entity
         [JsonProperty(HAVE_VALID)]
         public long HaveValid { get; set; }
 
-        /// <summary>
-        /// Is finished
-        /// </summary>
         [JsonProperty(IS_FINISHED)]
         public bool IsFinished { get; set; }
 
-        /// <summary>
-        /// Is private
-        /// </summary>
         [JsonProperty(IS_PRIVATE)]
         public bool IsPrivate { get; set; }
 
-        /// <summary>
-        /// Is stalled
-        /// </summary>
         [JsonProperty(IS_STALLED)]
         public bool IsStalled { get; set; }
 
-        /// <summary>
-        /// Left until done
-        /// </summary>
         [JsonProperty(LEFT_UNTIL_DONE)]
         public long LeftUntilDone { get; set; }
 
-        /// <summary>
-        /// Magnet link
-        /// </summary>
         [JsonProperty(MAGNET_LINK)]
         public string MagnetLink { get; set; }
 
@@ -184,196 +162,564 @@ namespace Transmission.API.RPC.Entity
         [JsonProperty(MANUAL_ANNOUNCE_TIME)]
         public int ManualAnnounceTime { get; set; }
 
-        /// <summary>
-        /// Max connected peers
-        /// </summary>
         [JsonProperty(MAX_CONNECTED_PEERS)]
         public int MaxConnectedPeers { get; set; }
 
-        /// <summary>
-        /// Metadata percent complete
-        /// </summary>
         [JsonProperty(METADATA_PERCENT_COMPLETE)]
         public double MetadataPercentComplete { get; set; }
 
-        /// <summary>
-        /// Name
-        /// </summary>
         [JsonProperty(NAME)]
         public string Name { get; set; }
 
-        /// <summary>
-        /// Peers
-        /// </summary>
         [JsonProperty(PEERS)]
-        public TransmissionTorrentPeers[] Peers { get; set; }
+        public ITransmissionTorrentPeers[] Peers { get; set; }
 
         /// <summary>
-        /// Peers connected
+        /// Number of peers that we're connected to
         /// </summary>
         [JsonProperty(PEERS_CONNECTED)]
         public int PeersConnected { get; set; }
 
         /// <summary>
-        /// Peers from
+        /// How many peers we found out about from the tracker, or from pex,
+        /// or from incoming connections, or from our resume file.
         /// </summary>
         [JsonProperty(PEERS_FROM)]
-        public TransmissionTorrentPeersFrom PeersFrom { get; set; }
+        public ITransmissionTorrentPeersFrom PeersFrom { get; set; }
 
         /// <summary>
-        /// Peers getting from us
+        /// Number of peers that we're sending data to.
         /// </summary>
         [JsonProperty(PEERS_GETTING_FROM_US)]
         public int PeersGettingFromUs { get; set; }
 
         /// <summary>
-        /// Peers sending to us
+        /// Number of peers that are sending data to us.
         /// </summary>
         [JsonProperty(PEERS_SENDING_TO_US)]
         public int PeersSendingToUs { get; set; }
 
-        /// <summary>
-        /// Percent complete
-        /// </summary>
         [JsonProperty(PERCENT_COMPLETE)]
         public double PercentComplete { get; set; }
 
-        /// <summary>
-        /// Percent done
-        /// </summary>
         [JsonProperty(PERCENT_DONE)]
         public double PercentDone { get; set; }
 
-        /// <summary>
-        /// Pieces
-        /// </summary>
         [JsonProperty(PIECES)]
         public string Pieces { get; set; }
 
-        /// <summary>
-        /// Piece count
-        /// </summary>
         [JsonProperty(PIECE_COUNT)]
         public int PieceCount { get; set; }
 
-        /// <summary>
-        /// Piece size
-        /// </summary>
         [JsonProperty(PIECE_SIZE)]
         public long PieceSize { get; set; }
 
-        /// <summary>
-        /// Priorities
-        /// </summary>
         [JsonProperty(PRIORITIES)]
         public int[] Priorities { get; set; }
 
-        /// <summary>
-        /// Primary mime type
-        /// </summary>
         [JsonProperty(PRIMARY_MIME_TYPE)]
         public string PrimaryMimeType { get; set; }
 
-        /// <summary>
-        /// Rate download
-        /// </summary>
         [JsonProperty(RATE_DOWNLOAD)]
         public int RateDownload { get; set; }
 
-        /// <summary>
-        /// Rate upload
-        /// </summary>
         [JsonProperty(RATE_UPLOAD)]
         public int RateUpload { get; set; }
 
-        /// <summary>
-        /// Recheck progress
-        /// </summary>
         [JsonProperty(RECHECK_PROGRESS)]
         public double RecheckProgress { get; set; }
 
         /// <summary>
-        /// Seconds downloading
+        /// Cumulative seconds the torrent's ever spent downloading 
         /// </summary>
         [JsonProperty(SECONDS_DOWNLOADING)]
         public int SecondsDownloading { get; set; }
 
-        /// <summary>
-        /// Seconds seeding
-        /// </summary>
         [JsonProperty(SECONDS_SEEDING)]
         public int SecondsSeeding { get; set; }
 
-        /// <summary>
-        /// Size when done
-        /// </summary>
         [JsonProperty(SIZE_WHEN_DONE)]
         public long SizeWhenDone { get; set; }
 
-        /// <summary>
-        /// Start date
-        /// </summary>
         [JsonProperty(START_DATE)]
         public long StartDate { get; set; }
 
-        /// <summary>
-        /// Status
-        /// </summary>
         [JsonProperty(STATUS)]
-        public int Status { get; set; }
+        public TorrentStatus Status { get; set; }
 
-        /// <summary>
-        /// Trackers
-        /// </summary>
         [JsonProperty(TRACKERS)]
-        public TransmissionTorrentTrackers[] Trackers { get; set; }
+        public ITransmissionTorrentTrackers[] Trackers { get; set; }
 
-        /// <summary>
-        /// Tracker stats
-        /// </summary>
         [JsonProperty(TRACKER_STATS)]
-        public TransmissionTorrentTrackerStats[] TrackerStats { get; set; }
+        public ITransmissionTorrentTrackerStats[] TrackerStats { get; set; }
 
-        /// <summary>
-        /// Total size
-        /// </summary>
         [JsonProperty(TOTAL_SIZE)]
         public long TotalSize { get; set; }
 
-        /// <summary>
-        /// Torrent file
-        /// </summary>
         [JsonProperty(TORRENT_FILE)]
         public string TorrentFile { get; set; }
 
-        /// <summary>
-        /// Uploaded ever
-        /// </summary>
         [JsonProperty(UPLOADED_EVER)]
         public long UploadedEver { get; set; }
 
-        /// <summary>
-        /// Upload ratio
-        /// </summary>
         [JsonProperty(UPLOAD_RATIO)]
         public double UploadRatio { get; set; }
 
-        /// <summary>
-        /// Wanted
-        /// </summary>
         [JsonProperty(WANTED)]
         public bool[] Wanted { get; set; }
 
-        /// <summary>
-        /// Web seeds
-        /// </summary>
         [JsonProperty(WEBSEEDS)]
         public string[] Webseeds { get; set; }
 
         /// <summary>
-        /// Web seeds sending to us
+        /// Number of webseeds that are sending data to us.
         /// </summary>
         [JsonProperty(WEBSEEDS_SENDING_TO_US)]
         public int WebseedsSendingToUs { get; set; }
+    }
+
+    public interface ITransmissionTorrentFile
+    {
+        /// <summary>
+        /// Bytes completed
+        /// </summary>
+        [JsonProperty("bytesCompleted")]
+        double BytesCompleted { get; set; }
+
+        /// <summary>
+        /// Length
+        /// </summary>
+        [JsonProperty("length")]
+        double Length { get; set; }
+
+        /// <summary>
+        /// Name
+        /// </summary>
+        [JsonProperty("name")]
+        string Name { get; set; }
+    }
+
+    public interface ITransmissionTorrentFileStats
+    {
+        /// <summary>
+        /// Bytes completed
+        /// </summary>
+        [JsonProperty("bytesCompleted")]
+        double BytesCompleted { get; set; }
+
+        /// <summary>
+        /// Wanted
+        /// </summary>
+        [JsonProperty("wanted")]
+        bool Wanted { get; set; }
+
+        /// <summary>
+        /// Priority
+        /// </summary>
+        [JsonProperty("priority")]
+        int Priority { get; set; }
+    }
+
+    public interface ITransmissionTorrentPeers
+    {
+        /// <summary>
+        /// Address
+        /// </summary>
+        [JsonProperty("address")]
+        string Address { get; set; }
+
+        /// <summary>
+        /// Client name
+        /// </summary>
+        [JsonProperty("clientName")]
+        string ClientName { get; set; }
+
+        /// <summary>
+        /// Client is choked
+        /// </summary>
+        [JsonProperty("clientIsChoked")]
+        bool ClientIsChoked { get; set; }
+
+        /// <summary>
+        /// Client is interested
+        /// </summary>
+        [JsonProperty("clientIsInterested")]
+        bool ClientIsInterested { get; set; }
+
+        /// <summary>
+        /// Flag string
+        /// </summary>
+        [JsonProperty("flagStr")]
+        string FlagStr { get; set; }
+
+        /// <summary>
+        /// Is downloading from
+        /// </summary>
+        [JsonProperty("isDownloadingFrom")]
+        bool IsDownloadingFrom { get; set; }
+
+        /// <summary>
+        /// Is encrypted
+        /// </summary>
+        [JsonProperty("isEncrypted")]
+        bool IsEncrypted { get; set; }
+
+        /// <summary>
+        /// Is uploading to
+        /// </summary>
+        [JsonProperty("isUploadingTo")]
+        bool IsUploadingTo { get; set; }
+
+        /// <summary>
+        /// Is UTP
+        /// </summary>
+        [JsonProperty("isUTP")]
+        bool IsUTP { get; set; }
+
+        /// <summary>
+        /// Peer is choked
+        /// </summary>
+        [JsonProperty("peerIsChoked")]
+        bool PeerIsChoked { get; set; }
+
+        /// <summary>
+        /// Peer is interested
+        /// </summary>
+        [JsonProperty("peerIsInterested")]
+        bool PeerIsInterested { get; set; }
+
+        /// <summary>
+        /// Port
+        /// </summary>
+        [JsonProperty("port")]
+        int Port { get; set; }
+
+        /// <summary>
+        /// Progress
+        /// </summary>
+        [JsonProperty("progress")]
+        double Progress { get; set; }
+
+        /// <summary>
+        /// Rate to client
+        /// </summary>
+        [JsonProperty("rateToClient")]
+        int RateToClient { get; set; }
+
+        /// <summary>
+        /// Rate to peer
+        /// </summary>
+        [JsonProperty("rateToPeer")]
+        int RateToPeer { get; set; }
+    }
+
+    /// <summary>
+    /// Torrent peers from
+    /// </summary>
+    public interface ITransmissionTorrentPeersFrom
+    {
+        /// <summary>
+        /// From DHT
+        /// </summary>
+        [JsonProperty("fromDht")]
+        int FromDHT { get; set; }
+
+        /// <summary>
+        /// From incoming
+        /// </summary>
+        [JsonProperty("fromIncoming")]
+        int FromIncoming { get; set; }
+
+        /// <summary>
+        /// From LPD
+        /// </summary>
+        [JsonProperty("fromLpd")]
+        int FromLPD { get; set; }
+
+        /// <summary>
+        /// From LTEP
+        /// </summary>
+        [JsonProperty("fromLtep")]
+        int FromLTEP { get; set; }
+
+        /// <summary>
+        /// From PEX
+        /// </summary>
+        [JsonProperty("fromPex")]
+        int FromPEX { get; set; }
+
+        /// <summary>
+        /// From tracker
+        /// </summary>
+        [JsonProperty("fromTracker")]
+        int FromTracker { get; set; }
+    }
+
+    /// <summary>
+    /// Torrent trackers
+    /// </summary>
+    public interface ITransmissionTorrentTrackers
+    {
+        /// <summary>
+        /// Announce
+        /// </summary>
+        [JsonProperty("announce")]
+        public string Announce { get; set; }
+
+        /// <summary>
+        /// Id
+        /// </summary>
+        [JsonProperty("id")]
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Scrape
+        /// </summary>
+        [JsonProperty("scrape")]
+        public string Scrape { get; set; }
+
+        /// <summary>
+        /// Tier
+        /// </summary>
+        [JsonProperty("tier")]
+        public int Tier { get; set; }
+    }
+
+    /// <summary>
+    /// Torrent tracker stats
+    /// </summary>
+    public interface ITransmissionTorrentTrackerStats
+    {
+        /// <summary>
+        /// Announce
+        /// </summary>
+        [JsonProperty("announce")]
+        string Announce { get; set; }
+
+        /// <summary>
+        /// Announce state
+        /// </summary>
+        [JsonProperty("announceState")]
+        int AnnounceState { get; set; }
+
+        /// <summary>
+        /// Download count
+        /// </summary>
+        [JsonProperty("downloadCount")]
+        int DownloadCount { get; set; }
+
+        /// <summary>
+        /// Has announced
+        /// </summary>
+        [JsonProperty("hasAnnounced")]
+        bool HasAnnounced { get; set; }
+
+        /// <summary>
+        /// Has scraped
+        /// </summary>
+        [JsonProperty("hasScraped")]
+        bool HasScraped { get; set; }
+
+        /// <summary>
+        /// Host
+        /// </summary>
+        [JsonProperty("host")]
+        string Host { get; set; }
+
+        /// <summary>
+        /// Is backup
+        /// </summary>
+        [JsonProperty("isBackup")]
+        bool IsBackup { get; set; }
+
+        /// <summary>
+        /// Last announce peer count
+        /// </summary>
+        [JsonProperty("lastAnnouncePeerCount")]
+        int LastAnnouncePeerCount { get; set; }
+
+        /// <summary>
+        /// Id
+        /// </summary>
+        [JsonProperty("id")]
+        int Id { get; set; }
+
+        /// <summary>
+        /// Last announce result 
+        /// </summary>
+        [JsonProperty("lastAnnounceResult")]
+        string LastAnnounceResult { get; set; }
+
+        /// <summary>
+        /// Last announce succeeded
+        /// </summary>
+        [JsonProperty("lastAnnounceSucceeded")]
+        bool LastAnnounceSucceeded { get; set; }
+
+        /// <summary>
+        /// Last announce start time
+        /// </summary>
+        [JsonProperty("lastAnnounceStartTime")]
+        int LastAnnounceStartTime { get; set; }
+
+        /// <summary>
+        /// Last scrape result
+        /// </summary>
+        [JsonProperty("lastScrapeResult")]
+        string LastScrapeResult { get; set; }
+
+        /// <summary>
+        /// Last announce timed out
+        /// </summary>
+        [JsonProperty("lastAnnounceTimedOut")]
+        bool LastAnnounceTimedOut { get; set; }
+
+        /// <summary>
+        /// Last announce time
+        /// </summary>
+        [JsonProperty("lastAnnounceTime")]
+        int LastAnnounceTime { get; set; }
+
+        /// <summary>
+        /// Last scrape scceeded
+        /// </summary>
+        [JsonProperty("lastScrapeSucceeded")]
+        bool LastScrapeSucceeded { get; set; }
+
+        /// <summary>
+        /// Last scrape start time
+        /// </summary>
+        [JsonProperty("lastScrapeStartTime")]
+        int LastScrapeStartTime { get; set; }
+
+        /// <summary>
+        /// Last scrape timed out
+        /// </summary>
+        [JsonProperty("lastScrapeTimedOut")]
+        bool LastScrapeTimedOut { get; set; }
+
+        /// <summary>
+        /// Last scrape time
+        /// </summary>
+        [JsonProperty("lastScrapeTime")]
+        int LastScrapeTime { get; set; }
+
+        /// <summary>
+        /// Scrape
+        /// </summary>
+        [JsonProperty("scrape")]
+        string Scrape { get; set; }
+
+        /// <summary>
+        /// Tier
+        /// </summary>
+        [JsonProperty("tier")]
+        int Tier { get; set; }
+
+        /// <summary>
+        /// Leecher count
+        /// </summary>
+        [JsonProperty("leecherCount")]
+        int LeecherCount { get; set; }
+
+        /// <summary>
+        /// Next announce time
+        /// </summary>
+        [JsonProperty("nextAnnounceTime")]
+        int NextAnnounceTime { get; set; }
+
+        /// <summary>
+        /// Next scrape time
+        /// </summary>
+        [JsonProperty("nextScrapeTime")]
+        int NextScrapeTime { get; set; }
+
+        /// <summary>
+        /// Scrape state
+        /// </summary>
+        [JsonProperty("scrapeState")]
+        int ScrapeState { get; set; }
+
+        /// <summary>
+        /// Seeder count
+        /// </summary>
+        [JsonProperty("seederCount")]
+        int SeederCount { get; set; }
+    }
+
+    /// <summary>
+    /// Contains arrays of torrents and removed torrents
+    /// </summary>
+    public interface ITransmissionTorrents
+    {
+        /// <summary>
+        /// Array of torrents
+        /// </summary>
+        [JsonProperty("torrents")]
+        TorrentInfo[] Torrents { get; set; }
+
+        /// <summary>
+        /// Array of torrent-id numbers of recently-removed torrents
+        /// </summary>
+        [JsonProperty("removed")]
+        TorrentInfo[] Removed { get; set; }
+    }
+
+    public enum TorrentError
+    {
+        /// <summary>
+        /// Everything's fine
+        /// </summary>
+        Ok = 0,
+        /// <summary>
+        /// When we anounced to the tracker, we got a warning in the response
+        /// </summary>
+        TrackerWarning = 1,
+        /// <summary>
+        /// When we anounced to the tracker, we got an error in the response
+        /// </summary>
+        TrackerError = 2,
+        /// <summary>
+        /// Local trouble, such as disk full or permissions error
+        /// </summary>
+        LocalError = 3
+    }
+
+    public enum TorrentStatus
+    {
+        /// <summary>
+        /// Torrent is stopped
+        /// </summary>
+        Stopped = 0,
+
+        /// <summary>
+        /// Torrent is queued to verify local data
+        /// </summary>
+        QueueVerify = 1,
+
+        /// <summary>
+        /// Torrent is verifying local data
+        /// </summary>
+        Verifying = 2,
+
+        /// <summary>
+        /// Torrent is queued to download
+        /// </summary>
+        QueueDownload = 3,
+
+        /// <summary>
+        /// Torrent is downloading
+        /// </summary>
+        Downloading = 4,
+
+        /// <summary>
+        /// Torrent is queued to seed
+        /// </summary>
+        QueueSeed = 5,
+
+        /// <summary>
+        /// Torrent is seeding
+        /// </summary>
+        Seeding = 6,
     }
 }
