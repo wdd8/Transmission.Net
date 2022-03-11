@@ -155,17 +155,12 @@ public class TransmissionClient : ITransmissionClient
         _ = await SendRequestAsync(request);
     }
 
-    /// <summary>
-    /// Get fields of torrents from ids (API: torrent-get)
-    /// </summary>
-    /// <param name="fields">Fields of torrents</param>
-    /// <param name="ids">IDs of torrents (null or empty for get all torrents)</param>
-    /// <returns>Torrents info</returns>
-    public async Task<TorrentsResult> TorrentGetAsync(string[] fields, params int[] ids)
+    /// <inheritdoc/>
+    public async Task<TorrentsResult> TorrentGetAsync(int[] ids = null, params string[] fields)
     {
         var arguments = new Dictionary<string, object>
         {
-            { "fields", fields }
+            { "fields", fields ?? TorrentFields.ALL_FIELDS }
         };
 
         if (ids != null && ids.Length > 0)
@@ -179,6 +174,28 @@ public class TransmissionClient : ITransmissionClient
         var result = response.Deserialize<TorrentsResult>();
 
         return result;
+    }
+
+    /// <summary>
+    /// Gets <paramref name="fields"/> from all torrents
+    /// </summary>
+    /// <param name="fields">Fields of torrent (<see langword="null"/> or empty for <see cref="TorrentFields.ALL_FIELDS"/>)</param>
+    /// <returns></returns>
+    public async Task<TorrentsResult> TorrentGetAsync(params string[] fields)
+    {
+        return await TorrentGetAsync(null, fields);
+    }
+
+
+    /// <summary>
+    /// Gets <paramref name="fields"/> of one specific torrent by its <paramref name="id"/>.
+    /// </summary>
+    /// <param name="id">ID of torrent</param>
+    /// <param name="fields">Fields of torrent (<see langword="null"/> or empty for <see cref="TorrentFields.ALL_FIELDS"/>)</param>
+    /// <returns>Torrents info</returns>
+    public async Task<TorrentsResult> TorrentGetAsync(int id, params string[] fields)
+    {
+        return await TorrentGetAsync(new int[] { id }, fields);
     }
 
     /// <summary>

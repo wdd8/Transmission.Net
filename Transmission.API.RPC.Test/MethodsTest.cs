@@ -71,7 +71,7 @@ public class MethodsTest
     [TestMethod]
     public async Task GetTorrentInfo_TestAsync()
     {
-        var torrentsInfo = await client.TorrentGetAsync(TorrentFields.ALL_FIELDS);
+        var torrentsInfo = await client.TorrentGetAsync();
 
         Assert.IsNotNull(torrentsInfo);
         Assert.IsNotNull(torrentsInfo.Torrents);
@@ -81,7 +81,7 @@ public class MethodsTest
     [TestMethod]
     public async Task SetTorrentSettings_TestAsync()
     {
-        var torrentsInfo = await client.TorrentGetAsync(TorrentFields.ALL_FIELDS);
+        var torrentsInfo = await client.TorrentGetAsync();
         var torrentInfo = torrentsInfo.Torrents.FirstOrDefault(t => t.Trackers.Any());
         Assert.IsNotNull(torrentInfo, "Torrent not found");
 
@@ -96,7 +96,7 @@ public class MethodsTest
 
         await client.TorrentSetAsync(settings);
 
-        torrentsInfo = await client.TorrentGetAsync(TorrentFields.ALL_FIELDS, torrentInfo.Id);
+        torrentsInfo = await client.TorrentGetAsync(torrentInfo.Id);
         torrentInfo = torrentsInfo.Torrents.FirstOrDefault();
 
         Assert.IsFalse(trackerCount == torrentInfo.Trackers.Length);
@@ -106,7 +106,7 @@ public class MethodsTest
     public async Task RenamePathTorrent_Test()
     {
         var newTorrentInfo = await TorrentAddAsync();
-        var torrentsInfo = await client.TorrentGetAsync(TorrentFields.ALL_FIELDS);
+        var torrentsInfo = await client.TorrentGetAsync();
         var torrentInfo = torrentsInfo.Torrents.First(t => t.Id == newTorrentInfo.ID);
         Assert.IsNotNull(torrentInfo, "Torrent not found");
 
@@ -119,13 +119,13 @@ public class MethodsTest
     [TestMethod]
     public async Task RemoveTorrent_Test()
     {
-        var torrentsInfo = await client.TorrentGetAsync(TorrentFields.ALL_FIELDS);
+        var torrentsInfo = await client.TorrentGetAsync();
         var torrentInfo = await TorrentAddAsync();
         Assert.IsNotNull(torrentInfo, "Torrent not found");
 
         await client.TorrentRemoveAsync(new int[] { torrentInfo.ID });
 
-        torrentsInfo = await client.TorrentGetAsync(TorrentFields.ALL_FIELDS);
+        torrentsInfo = await client.TorrentGetAsync();
 
         Assert.IsFalse(torrentsInfo.Torrents.Any(t => t.Id == torrentInfo.ID));
     }

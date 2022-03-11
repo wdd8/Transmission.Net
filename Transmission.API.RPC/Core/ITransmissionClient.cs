@@ -74,12 +74,12 @@ public interface ITransmissionClient
     Task<NewTorrentInfo> TorrentAddAsync(NewTorrent torrent);
 
     /// <summary>
-    /// Get fields of torrents from ids (API: torrent-get)
+    /// Get <paramref name="fields"/> of torrents from <paramref name="ids"/> (API: torrent-get)
     /// </summary>
-    /// <param name="fields">Fields of torrents</param>
-    /// <param name="ids">IDs of torrents (null or empty for get all torrents)</param>
+    /// <param name="ids">IDs of torrents (<see langword="null"/> or empty for get all torrents)</param>
+    /// <param name="fields">Fields of torrents (<see langword="null"/> for <see cref="TorrentFields.ALL_FIELDS"/>)</param>
     /// <returns>Torrents info</returns>
-    Task<TorrentsResult> TorrentGetAsync(string[] fields, params int[] ids);
+    Task<TorrentsResult> TorrentGetAsync(int[] ids = null, params string[] fields);
 
     /// <summary>
     /// Move torrents to bottom in queue  (API: queue-move-bottom)
