@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Transmission.API.RPC.Entity
+namespace Transmission.API.RPC.Api.Entity.Session
 {
     /// <summary>
     /// Units
