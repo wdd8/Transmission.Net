@@ -10,7 +10,7 @@ using Transmission.API.RPC.Arguments;
 namespace Transmission.API.RPC.Test;
 
 [TestClass]
-public class MethodsTest
+public class IntegrationTest
 {
     private readonly string FILE_PATH = AppDomain.CurrentDomain.BaseDirectory
                                         + "./Data/ubuntu-21.10-desktop-amd64.iso.torrent";
