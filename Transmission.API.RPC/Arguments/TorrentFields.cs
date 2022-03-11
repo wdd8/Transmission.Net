@@ -43,7 +43,7 @@
         public const string DATE_CREATED = "dateCreated";
 
         /// <summary>
-        /// desiredAvailable
+        /// <inheritdoc cref="ITorrentInfo.DesiredAvailable"/>
         /// </summary>
         public const string DESIRED_AVAILABLE = "desiredAvailable";
 
@@ -370,12 +370,12 @@
         /// <summary>
         /// webseeds
         /// </summary>
-        public const string WEB_SEEDS = "webseeds";
+        public const string WEBSEEDS = "webseeds";
 
         /// <summary>
         /// webseedsSendingToUs
         /// </summary>
-        public const string WEB_SEEDS_SENDING_TO_US = "webseedsSendingToUs";
+        public const string WEBSEEDS_SENDING_TO_US = "webseedsSendingToUs";
 
         /// <summary>
         /// All fields
@@ -455,8 +455,8 @@
                     UPLOAD_LIMITED,
                     UPLOAD_RATIO,
                     WANTED,
-                    WEB_SEEDS,
-                    WEB_SEEDS_SENDING_TO_US,
+                    WEBSEEDS,
+                    WEBSEEDS_SENDING_TO_US,
                     #endregion
                 };
     }
