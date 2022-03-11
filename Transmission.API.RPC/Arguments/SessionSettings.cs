@@ -26,7 +26,7 @@ namespace Transmission.API.RPC.Arguments
         /// <summary>
         /// True means the scheduled on/off times are used
         /// </summary>
-        public bool? AlternativeSpeedTimeEnabled { get => GetValue<bool?>("alt-speed-time-enabled"); set => this["bandwidthPriority"] = value; }
+        public bool? AlternativeSpeedTimeEnabled { get => GetValue<bool?>("alt-speed-time-enabled"); set => this["alt-speed-time-enabled"] = value; }
 
         /// <summary>
         /// When to turn off alt speeds

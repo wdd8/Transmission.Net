@@ -17,25 +17,25 @@ namespace Transmission.API.RPC.Entity
         /// Download speed
         /// </summary>
         [JsonProperty("downloadSpeed")]
-        public int downloadSpeed { get; set; }
+        public int DownloadSpeed { get; set; }
 
         /// <summary>
         /// Paused torrent count
         /// </summary>
         [JsonProperty("pausedTorrentCount")]
-        public int pausedTorrentCount { get; set; }
+        public int PausedTorrentCount { get; set; }
 
         /// <summary>
         /// Torrent count
         /// </summary>
         [JsonProperty("torrentCount")]
-        public int torrentCount { get; set; }
+        public int TorrentCount { get; set; }
 
         /// <summary>
         /// Upload speed
         /// </summary>
         [JsonProperty("uploadSpeed")]
-        public int uploadSpeed { get; set; }
+        public int UploadSpeed { get; set; }
 
         /// <summary>
         /// Cumulative stats
@@ -59,7 +59,7 @@ namespace Transmission.API.RPC.Entity
         /// Uploaded bytes
         /// </summary>
         [JsonProperty("uploadedBytes")]
-        public double uploadedBytes { get; set; }
+        public double UploadedBytes { get; set; }
 
         /// <summary>
         /// Downloaded bytes

@@ -7,7 +7,7 @@ namespace Transmission.API.RPC.Arguments
     /// </summary>
     public class TorrentSettings : ArgumentsBase, ITorrentAttributes
     {
-        public int? BandwidthPriority { get => GetValue<int?>("bandwidthPriority"); set => this["bandwidthPriority"] = value; }
+        public Priority? BandwidthPriority { get => GetValue<Priority?>("bandwidthPriority"); set => this["bandwidthPriority"] = value; }
         public int? DownloadLimit { get => GetValue<int?>("downloadLimit"); set => this["downloadLimit"] = value; }
         public bool? DownloadLimited { get => GetValue<bool?>("downloadLimited"); set => this["downloadLimited"] = value; }
         public bool? HonorsSessionLimits { get => GetValue<bool?>("honorsSessionLimits"); set => this["honorsSessionLimits"] = value; }
@@ -48,11 +48,8 @@ namespace Transmission.API.RPC.Arguments
         /// Indices of normal-priority file(s)
         /// </summary>
         public string[] PriorityNormal { get => GetValue<string[]>("priority-normal"); set => this["priority-normal"] = value; }
-
         public int? QueuePosition { get => GetValue<int?>("queuePosition"); set => this["queuePosition"] = value; }
-
         public int? SeedIdleLimit { get => GetValue<int?>("seedIdleLimit"); set => this["seedIdleLimit"] = value; }
-
         public int? SeedIdleMode { get => GetValue<int?>("seedIdleMode"); set => this["seedIdleMode"] = value; }
         public double? SeedRatioLimit { get => GetValue<double?>("seedRatioLimit"); set => this["seedRatioLimit"] = value; }
         public int? SeedRatioMode { get => GetValue<int?>("seedRatioMode"); set => this["seedRatioMode"] = value; }

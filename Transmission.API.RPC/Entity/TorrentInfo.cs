@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Transmission.API.RPC.Common;
 
 namespace Transmission.API.RPC.Entity
 {
@@ -29,7 +30,7 @@ namespace Transmission.API.RPC.Entity
         public int Id { get; set; }
         public long ActivityDate { get; set; }
         public long AddedDate { get; set; }
-        public int? BandwidthPriority { get; set; }
+        public Priority? BandwidthPriority { get; set; }
         public string Comment { get; set; }
         public int CorruptEver { get; set; }
         public string Creator { get; set; }
@@ -37,7 +38,7 @@ namespace Transmission.API.RPC.Entity
         public long DesiredAvailable { get; set; }
         public long DoneDate { get; set; }
         public string DownloadDir { get; set; }
-        public string DownloadedEver { get; set; }
+        public long DownloadedEver { get; set; }
         public int? DownloadLimit { get; set; }
         public bool? DownloadLimited { get; set; }
         public long EditDate { get; set; }
@@ -74,7 +75,7 @@ namespace Transmission.API.RPC.Entity
         public string Pieces { get; set; }
         public int PieceCount { get; set; }
         public long PieceSize { get; set; }
-        public int[] Priorities { get; set; }
+        public Priority[] Priorities { get; set; }
         public string PrimaryMimeType { get; set; }
         public int? QueuePosition { get; set; }
         public int RateDownload { get; set; }
@@ -89,7 +90,7 @@ namespace Transmission.API.RPC.Entity
         public long SizeWhenDone { get; set; }
         public long StartDate { get; set; }
         public TorrentStatus Status { get; set; }
-        public ITransmissionTorrentTrackers[] Trackers { get; set; }
+        public ITransmissionTorrentTracker[] Trackers { get; set; }
         public string TrackerList { get; set; }
         public ITransmissionTorrentTrackerStats[] TrackerStats { get; set; }
         public long TotalSize { get; set; }
@@ -105,8 +106,8 @@ namespace Transmission.API.RPC.Entity
 
     public class TransmissionTorrentFile : ITransmissionTorrentFile
     {
-        public double BytesCompleted { get; set; }
-        public double Length { get; set; }
+        public long BytesCompleted { get; set; }
+        public long Length { get; set; }
         public string Name { get; set; }
     }
 
@@ -114,7 +115,7 @@ namespace Transmission.API.RPC.Entity
     {
         public double BytesCompleted { get; set; }
         public bool Wanted { get; set; }
-        public int Priority { get; set; }
+        public Priority Priority { get; set; }
     }
 
     public class TransmissionTorrentPeers : ITransmissionTorrentPeers
@@ -146,7 +147,7 @@ namespace Transmission.API.RPC.Entity
         public int FromTracker { get; set; }
     }
 
-    public class TransmissionTorrentTrackers : ITransmissionTorrentTrackers
+    public class TransmissionTorrentTrackers : ITransmissionTorrentTracker
     {
         public string Announce { get; set; }
         public int Id { get; set; }
@@ -157,7 +158,7 @@ namespace Transmission.API.RPC.Entity
     public class TransmissionTorrentTrackerStats : ITransmissionTorrentTrackerStats
     {
         public string Announce { get; set; }
-        public int AnnounceState { get; set; }
+        public TrackerState AnnounceState { get; set; }
         public int DownloadCount { get; set; }
         public bool HasAnnounced { get; set; }
         public bool HasScraped { get; set; }
@@ -167,10 +168,10 @@ namespace Transmission.API.RPC.Entity
         public int Id { get; set; }
         public string LastAnnounceResult { get; set; }
         public bool LastAnnounceSucceeded { get; set; }
-        public int LastAnnounceStartTime { get; set; }
+        public long LastAnnounceStartTime { get; set; }
         public string LastScrapeResult { get; set; }
         public bool LastAnnounceTimedOut { get; set; }
-        public int LastAnnounceTime { get; set; }
+        public long LastAnnounceTime { get; set; }
         public bool LastScrapeSucceeded { get; set; }
         public int LastScrapeStartTime { get; set; }
         public bool LastScrapeTimedOut { get; set; }
@@ -180,7 +181,7 @@ namespace Transmission.API.RPC.Entity
         public int LeecherCount { get; set; }
         public int NextAnnounceTime { get; set; }
         public int NextScrapeTime { get; set; }
-        public int ScrapeState { get; set; }
+        public TrackerState ScrapeState { get; set; }
         public int SeederCount { get; set; }
     }
 

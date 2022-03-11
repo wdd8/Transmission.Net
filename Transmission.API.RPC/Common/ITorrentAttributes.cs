@@ -13,7 +13,7 @@ namespace Transmission.API.RPC.Common
         /// This torrent's bandwidth priority
         /// </summary>
         [JsonProperty(BANDWIDTH_PRIORITY)]
-        int? BandwidthPriority { get; set; }
+        Priority? BandwidthPriority { get; set; }
 
         /// <summary>
         /// Maximum download speed (KBps)
@@ -22,13 +22,13 @@ namespace Transmission.API.RPC.Common
         int? DownloadLimit { get; set; }
 
         /// <summary>
-        /// <c>true</c> if downloadLimit is honored
+        /// <see langword="true"/> if downloadLimit is honored
         /// </summary>
         [JsonProperty(DOWNLOAD_LIMITED)]
         bool? DownloadLimited { get; set; }
 
         /// <summary>
-        /// <c>true</c> if session upload limits are honored
+        /// <see langword="true"/> if session upload limits are honored
         /// </summary>
         [JsonProperty(HONORS_SESSION_LIMITS)]
         bool? HonorsSessionLimits { get; set; }
@@ -91,7 +91,7 @@ namespace Transmission.API.RPC.Common
         int? UploadLimit { get; set; }
 
         /// <summary>
-        /// <c>true</c> if <see cref="UploadLimit"/> is honored
+        /// <see langword="true"/> if <see cref="UploadLimit"/> is honored
         /// </summary>
         [JsonProperty(UPLOAD_LIMITED)]
         bool? UploadLimited { get; set; }
