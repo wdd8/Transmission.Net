@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Text;
@@ -160,10 +160,10 @@ public class TransmissionClient : ITransmissionClient
     {
         var arguments = new Dictionary<string, object>
         {
-            { "fields", fields ?? TorrentFields.ALL_FIELDS }
+            { "fields", fields.Any() ? fields : TorrentFields.ALL_FIELDS }
         };
 
-        if (ids != null && ids.Length > 0)
+        if (ids != null && ids.Any())
         {
             arguments.Add("ids", ids);
         }
@@ -179,7 +179,7 @@ public class TransmissionClient : ITransmissionClient
     /// <summary>
     /// Gets <paramref name="fields"/> from all torrents
     /// </summary>
-    /// <param name="fields">Fields of torrent (<see langword="null"/> or empty for <see cref="TorrentFields.ALL_FIELDS"/>)</param>
+    /// <param name="fields">Fields of torrent (empty for <see cref="TorrentFields.ALL_FIELDS"/>)</param>
     /// <returns></returns>
     public async Task<TorrentsResult> TorrentGetAsync(params string[] fields)
     {
@@ -191,7 +191,7 @@ public class TransmissionClient : ITransmissionClient
     /// Gets <paramref name="fields"/> of one specific torrent by its <paramref name="id"/>.
     /// </summary>
     /// <param name="id">ID of torrent</param>
-    /// <param name="fields">Fields of torrent (<see langword="null"/> or empty for <see cref="TorrentFields.ALL_FIELDS"/>)</param>
+    /// <param name="fields">Fields of torrent (empty for <see cref="TorrentFields.ALL_FIELDS"/>)</param>
     /// <returns>Torrents info</returns>
     public async Task<TorrentsResult> TorrentGetAsync(int id, params string[] fields)
     {

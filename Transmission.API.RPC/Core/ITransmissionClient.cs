@@ -1,4 +1,4 @@
-﻿using Transmission.API.RPC.Api;
+using Transmission.API.RPC.Api;
 using Transmission.API.RPC.Api.Entity;
 using Transmission.API.RPC.Api.Entity.Session;
 using Transmission.API.RPC.Arguments;
@@ -77,7 +77,7 @@ public interface ITransmissionClient
     /// Get <paramref name="fields"/> of torrents from <paramref name="ids"/> (API: torrent-get)
     /// </summary>
     /// <param name="ids">IDs of torrents (<see langword="null"/> or empty for get all torrents)</param>
-    /// <param name="fields">Fields of torrents (<see langword="null"/> for <see cref="TorrentFields.ALL_FIELDS"/>)</param>
+    /// <param name="fields">Fields of torrents (empty for <see cref="TorrentFields.ALL_FIELDS"/>)</param>
     /// <returns>Torrents info</returns>
     Task<TorrentsResult> TorrentGetAsync(int[] ids = null, params string[] fields);
 
