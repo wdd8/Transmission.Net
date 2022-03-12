@@ -5,7 +5,7 @@ namespace Transmission.API.RPC.Core.Entity;
 /// <summary>
 /// Torrent trackers
 /// </summary>
-public interface ITransmissionTorrentTracker
+public interface ITorrentTracker
 {
     /// <summary>
     /// Full announce URL

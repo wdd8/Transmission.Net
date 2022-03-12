@@ -309,7 +309,7 @@ public interface ITorrentView : ITorrentData
     TorrentStatus? Status { get; set; }
 
     [JsonProperty(TRACKERS)]
-    ITransmissionTorrentTracker[]? Trackers { get; set; }
+    ITorrentTracker[]? Trackers { get; set; }
 
     [JsonProperty(TRACKER_STATS)]
     ITorrentTrackerStats[]? TrackerStats { get; set; }

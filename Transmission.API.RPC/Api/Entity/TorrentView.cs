@@ -93,7 +93,7 @@ public class TorrentView : ITorrentView
     public long? SizeWhenDone { get; set; }
     public DateTime? StartDate { get; set; }
     public TorrentStatus? Status { get; set; }
-    public ITransmissionTorrentTracker[]? Trackers { get; set; }
+    public ITorrentTracker[]? Trackers { get; set; }
     public string? TrackerList { get; set; }
     public ITorrentTrackerStats[]? TrackerStats { get; set; }
     public long? TotalSize { get; set; }

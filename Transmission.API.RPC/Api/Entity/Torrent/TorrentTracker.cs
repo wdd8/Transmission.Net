@@ -3,7 +3,7 @@ using Transmission.API.RPC.Core.Entity;
 
 namespace Transmission.API.RPC.Api.Entity.Torrent;
 
-public class TorrentTracker : ITransmissionTorrentTracker
+public class TorrentTracker : ITorrentTracker
 {
     [JsonConstructor]
     internal TorrentTracker(string announce, int id, string scrape, int tier)

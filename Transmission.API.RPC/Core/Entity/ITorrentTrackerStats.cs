@@ -9,11 +9,11 @@ namespace Transmission.API.RPC.Core.Entity;
 /// </summary>
 public interface ITorrentTrackerStats
 {
-    /// <inheritdoc cref="ITransmissionTorrentTracker.Announce"/>
+    /// <inheritdoc cref="ITorrentTracker.Announce"/>
     [JsonProperty("announce")]
     string? Announce { get; set; }
 
-    /// <inheritdoc cref="ITransmissionTorrentTracker.Scrape"/>
+    /// <inheritdoc cref="ITorrentTracker.Scrape"/>
     [JsonProperty("scrape")]
     string? Scrape { get; set; }
 
@@ -99,11 +99,11 @@ public interface ITorrentTrackerStats
     int? SeederCount { get; set; }
 
 
-    /// <inheritdoc cref="ITransmissionTorrentTracker.Tier"/>
+    /// <inheritdoc cref="ITorrentTracker.Tier"/>
     [JsonProperty("tier")]
     int? Tier { get; set; }
 
-    /// <inheritdoc cref="ITransmissionTorrentTracker.Id"/>
+    /// <inheritdoc cref="ITorrentTracker.Id"/>
     [JsonProperty("id")]
     int? Id { get; set; }
 
