@@ -4,7 +4,7 @@
     {
       "name": "Docker dotnet/sdk",
       "type": "docker",
-      "dockerFile": "Transmission.API.RPC.test/Data/testEnvironment.dockerfile"
+      "dockerFile": "Transmission.Net.Test/Data/testEnvironment.dockerfile"
     }
   ]
 }
