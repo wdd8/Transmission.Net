@@ -199,6 +199,8 @@ public class TransmissionClient : ITransmissionClient
         return await TorrentGetAsync(new int[] { id }, fields);
     }
 
+    #region Torrent Remove
+
     /// <summary>
     /// Remove torrents
     /// </summary>
@@ -216,6 +218,27 @@ public class TransmissionClient : ITransmissionClient
         _ = await SendRequestAsync(request);
     }
 
+    /// <summary>
+    /// Remove torrents without deleting data
+    /// </summary>
+    /// <param name="deleteData">Remove data</param>
+    /// <param name="ids">Torrents id</param>
+    public async Task TorrentRemoveAsync(bool deleteData, params int[] ids)
+    {
+        await TorrentRemoveAsync(ids, deleteData);
+    }
+
+    /// <summary>
+    /// Remove torrents without deleting data
+    /// </summary>
+    /// <param name="ids">Torrents id</param>
+    public async Task TorrentRemoveAsync(params int[] ids)
+    {
+        await TorrentRemoveAsync(ids, false);
+    }
+
+    #endregion
+
     #region Torrent Start
 
     /// <summary>
@@ -225,16 +248,6 @@ public class TransmissionClient : ITransmissionClient
     public async Task TorrentStartAsync(params object[] ids)
     {
         var request = new TransmissionRequest("torrent-start", new Dictionary<string, object> { { "ids", ids } });
-        _ = await SendRequestAsync(request);
-    }
-
-    /// <summary>
-    /// Start torrents (API: torrent-start)
-    /// </summary>
-    /// <param name="hashes">A list of torrent id numbers, sha1 hash strings, or both</param>
-    public async Task TorrentStartAsync(params string[] hashes)
-    {
-        var request = new TransmissionRequest("torrent-start", new Dictionary<string, object> { { "ids", hashes } });
         _ = await SendRequestAsync(request);
     }
 
@@ -255,7 +268,7 @@ public class TransmissionClient : ITransmissionClient
     /// Start now torrents (API: torrent-start-now)
     /// </summary>
     /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-    public async Task TorrentStartNowAsync(object[] ids)
+    public async Task TorrentStartNowAsync(params object[] ids)
     {
         var request = new TransmissionRequest("torrent-start-now", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
@@ -278,7 +291,7 @@ public class TransmissionClient : ITransmissionClient
     /// Stop torrents (API: torrent-stop)
     /// </summary>
     /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-    public async Task TorrentStopAsync(object[] ids)
+    public async Task TorrentStopAsync(params object[] ids)
     {
         var request = new TransmissionRequest("torrent-stop", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
@@ -301,7 +314,7 @@ public class TransmissionClient : ITransmissionClient
     /// Verify torrents (API: torrent-verify)
     /// </summary>
     /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-    public async Task TorrentVerifyAsync(object[] ids)
+    public async Task TorrentVerifyAsync(params object[] ids)
     {
         var request = new TransmissionRequest("torrent-verify", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
@@ -321,7 +334,7 @@ public class TransmissionClient : ITransmissionClient
     /// Move torrents in queue on top (API: queue-move-top)
     /// </summary>
     /// <param name="ids">Torrents id</param>
-    public async Task TorrentQueueMoveTopAsync(int[] ids)
+    public async Task TorrentQueueMoveTopAsync(params int[] ids)
     {
         var request = new TransmissionRequest("queue-move-top", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
@@ -331,7 +344,7 @@ public class TransmissionClient : ITransmissionClient
     /// Move up torrents in queue (API: queue-move-up)
     /// </summary>
     /// <param name="ids"></param>
-    public async Task TorrentQueueMoveUpAsync(int[] ids)
+    public async Task TorrentQueueMoveUpAsync(params int[] ids)
     {
         _ = await SendRequestAsync(new("queue-move-up", new Dictionary<string, object> { { "ids", ids } }));
     }
@@ -340,7 +353,7 @@ public class TransmissionClient : ITransmissionClient
     /// Move down torrents in queue (API: queue-move-down)
     /// </summary>
     /// <param name="ids"></param>
-    public async Task TorrentQueueMoveDownAsync(int[] ids)
+    public async Task TorrentQueueMoveDownAsync(params int[] ids)
     {
         var request = new TransmissionRequest("queue-move-down", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
@@ -350,11 +363,13 @@ public class TransmissionClient : ITransmissionClient
     /// Move torrents to bottom in queue  (API: queue-move-bottom)
     /// </summary>
     /// <param name="ids"></param>
-    public async Task TorrentQueueMoveBottomAsync(int[] ids)
+    public async Task TorrentQueueMoveBottomAsync(params int[] ids)
     {
         var request = new TransmissionRequest("queue-move-bottom", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
     }
+
+    #region Torrent Set Location
 
     /// <summary>
     /// Set new location for torrents files (API: torrent-set-location)
@@ -374,6 +389,19 @@ public class TransmissionClient : ITransmissionClient
         var request = new TransmissionRequest("torrent-set-location", arguments);
         _ = await SendRequestAsync(request);
     }
+
+    /// <summary>
+    /// Set new location for torrents files (API: torrent-set-location)
+    /// </summary>
+    /// <param name="id">Torrent id</param>
+    /// <param name="location">The new torrent location</param>
+    /// <param name="move">Move from previous location</param>
+    public async Task TorrentSetLocationAsync(int id, string location, bool move)
+    {
+        await TorrentSetLocationAsync(new[] { id }, location, move);
+    }
+
+    #endregion
 
     /// <summary>
     /// Rename a file or directory in a torrent (API: torrent-rename-path)

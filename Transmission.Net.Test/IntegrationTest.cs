@@ -123,7 +123,7 @@ public class IntegrationTest
         var torrentInfo = await TorrentAddAsync();
         Assert.IsNotNull(torrentInfo, "Torrent not found");
 
-        await client.TorrentRemoveAsync(new int[] { torrentInfo.Id });
+        await client.TorrentRemoveAsync(torrentInfo.Id);
 
         torrentsInfo = await client.TorrentGetAsync();
 
