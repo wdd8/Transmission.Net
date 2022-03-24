@@ -15,7 +15,7 @@ public static class AsyncExtensions
         {
             task.Wait();
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             if (e.InnerException != null)
             {

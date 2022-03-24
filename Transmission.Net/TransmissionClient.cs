@@ -7,6 +7,7 @@ using Transmission.Net.Api.Entity;
 using Transmission.Net.Api.Entity.Session;
 using Transmission.Net.Arguments;
 using Transmission.Net.Core;
+using Transmission.Net.Exception;
 
 namespace Transmission.Net;
 
@@ -123,7 +124,7 @@ public class TransmissionClient : ITransmissionClient
     {
         if (string.IsNullOrWhiteSpace(torrent.Metainfo) && string.IsNullOrWhiteSpace(torrent.Filename))
         {
-            throw new Exception("Either \"filename\" or \"metainfo\" must be included.");
+            throw new ArgumentException("Either \"filename\" or \"metainfo\" must be included.");
         }
 
         var request = new TransmissionRequest("torrent-add", torrent);
@@ -483,7 +484,7 @@ public class TransmissionClient : ITransmissionClient
 
                 if (result?.Result != "success")
                 {
-                    throw new Exception(result?.Result ?? "Invalid response");
+                    throw new TransmissionException(result?.Result ?? "Invalid response");
                 }
             }
             else if (httpResponse.StatusCode == HttpStatusCode.Conflict)
@@ -497,20 +498,22 @@ public class TransmissionClient : ITransmissionClient
                     }
                     else
                     {
-                        throw new Exception("Session ID Error");
+                        throw new TransmissionException("Session ID Error");
                     }
 
                     result = await SendRequestAsync(request);
                 }
                 else
                 {
-                    throw new Exception("Session ID Error");
-                    //TODO: Create custom exceptions
+                    throw new TransmissionException("Session ID Error");
                 }
             }
             else
             {
-                throw new HttpRequestException();
+                throw new TransmissionException(
+                    $"HTTP Error: {httpResponse.ReasonPhrase}",
+                    new HttpRequestException(httpResponse.ReasonPhrase, null, httpResponse.StatusCode)
+                );
             }
         }
 

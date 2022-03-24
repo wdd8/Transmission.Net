@@ -22,7 +22,7 @@ public class IntegrationTest
     {
         if (!File.Exists(FILE_PATH))
         {
-            throw new Exception("Torrent file not found");
+            throw new System.Exception("Torrent file not found");
         }
 
         var fstream = File.OpenRead(FILE_PATH);
