@@ -222,9 +222,19 @@ public class TransmissionClient : ITransmissionClient
     /// Start torrents (API: torrent-start)
     /// </summary>
     /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-    public async Task TorrentStartAsync(object[] ids)
+    public async Task TorrentStartAsync(params object[] ids)
     {
         var request = new TransmissionRequest("torrent-start", new Dictionary<string, object> { { "ids", ids } });
+        _ = await SendRequestAsync(request);
+    }
+
+    /// <summary>
+    /// Start torrents (API: torrent-start)
+    /// </summary>
+    /// <param name="hashes">A list of torrent id numbers, sha1 hash strings, or both</param>
+    public async Task TorrentStartAsync(params string[] hashes)
+    {
+        var request = new TransmissionRequest("torrent-start", new Dictionary<string, object> { { "ids", hashes } });
         _ = await SendRequestAsync(request);
     }
 
