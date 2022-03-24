@@ -245,10 +245,28 @@ public class TransmissionClient : ITransmissionClient
     /// Start torrents (API: torrent-start)
     /// </summary>
     /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-    public async Task TorrentStartAsync(params object[] ids)
+    public async Task TorrentStartAsync(object[] ids)
     {
         var request = new TransmissionRequest("torrent-start", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
+    }
+
+    /// <summary>
+    /// Start torrents (API: torrent-start)
+    /// </summary>
+    /// <param name="ids">A list of torrent id numbers</param>
+    public async Task TorrentStartAsync(params int[] ids)
+    {
+        await TorrentStartAsync(ids.Cast<object>().ToArray());
+    }
+
+    /// <summary>
+    /// Start torrents (API: torrent-start)
+    /// </summary>
+    /// <param name="hashes">A list of torrent sha1 hash strings</param>
+    public async Task TorrentStartAsync(params string[] hashes)
+    {
+        await TorrentStartAsync(hashes.Cast<object>().ToArray());
     }
 
     /// <summary>
@@ -268,10 +286,28 @@ public class TransmissionClient : ITransmissionClient
     /// Start now torrents (API: torrent-start-now)
     /// </summary>
     /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-    public async Task TorrentStartNowAsync(params object[] ids)
+    public async Task TorrentStartNowAsync(object[] ids)
     {
         var request = new TransmissionRequest("torrent-start-now", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
+    }
+
+    /// <summary>
+    /// Start now torrents (API: torrent-start-now)
+    /// </summary>
+    /// <param name="ids">A list of torrent id numbers</param>
+    public async Task TorrentStartNowAsync(params int[] ids)
+    {
+        await TorrentStartNowAsync(ids.Cast<object>().ToArray());
+    }
+
+    /// <summary>
+    /// Start now torrents (API: torrent-start-now)
+    /// </summary>
+    /// <param name="hashes">A list of torrent hash strings</param>
+    public async Task TorrentStartNowAsync(params string[] hashes)
+    {
+        await TorrentStartNowAsync(hashes.Cast<object>().ToArray());
     }
 
     /// <summary>
@@ -291,10 +327,28 @@ public class TransmissionClient : ITransmissionClient
     /// Stop torrents (API: torrent-stop)
     /// </summary>
     /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-    public async Task TorrentStopAsync(params object[] ids)
+    public async Task TorrentStopAsync(object[] ids)
     {
         var request = new TransmissionRequest("torrent-stop", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
+    }
+
+    /// <summary>
+    /// Stop torrents (API: torrent-stop)
+    /// </summary>
+    /// <param name="ids">A list of torrent id numbers</param>
+    public async Task TorrentStopAsync(params int[] ids)
+    {
+        await TorrentStopAsync(ids.Cast<object>().ToArray());
+    }
+
+    /// <summary>
+    /// Stop torrents (API: torrent-stop)
+    /// </summary>
+    /// <param name="hashes">A list of torrent sha1 hash strings</param>
+    public async Task TorrentStopAsync(params string[] hashes)
+    {
+        await TorrentStopAsync(hashes.Cast<object>().ToArray());
     }
 
     /// <summary>
@@ -314,10 +368,28 @@ public class TransmissionClient : ITransmissionClient
     /// Verify torrents (API: torrent-verify)
     /// </summary>
     /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
-    public async Task TorrentVerifyAsync(params object[] ids)
+    public async Task TorrentVerifyAsync(object[] ids)
     {
         var request = new TransmissionRequest("torrent-verify", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
+    }
+
+    /// <summary>
+    /// Verify torrents (API: torrent-verify)
+    /// </summary>
+    /// <param name="ids">A list of torrent id numbers</param>
+    public async Task TorrentVerifyAsync(params int[] ids)
+    {
+        await TorrentVerifyAsync(ids.Cast<object>().ToArray());
+    }
+
+    /// <summary>
+    /// Verify torrents (API: torrent-verify)
+    /// </summary>
+    /// <param name="hashes">A list of torrent sha1 hash strings</param>
+    public async Task TorrentVerifyAsync(params string[] hashes)
+    {
+        await TorrentVerifyAsync(hashes.Cast<object>().ToArray());
     }
 
     /// <summary>
