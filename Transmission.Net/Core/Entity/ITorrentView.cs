@@ -125,7 +125,7 @@ public interface ITorrentView : ITorrentData
     /// are moved to <see cref="CorruptEver"/> or <see cref="HaveValid"/>.
     /// </summary>
     [JsonProperty(HAVE_UNCHECKED)]
-    int? HaveUnchecked { get; set; }
+    long? HaveUnchecked { get; set; }
 
     /// <summary>
     /// Byte count of all the checksum-verified data we have for this torrent.

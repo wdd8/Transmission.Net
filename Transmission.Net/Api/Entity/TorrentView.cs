@@ -53,7 +53,7 @@ public class TorrentView : ITorrentView
     public ITorrentFile[]? Files { get; set; }
     public ITorrentFileStats[]? FileStats { get; set; }
     public string? HashString { get; set; }
-    public int? HaveUnchecked { get; set; }
+    public long? HaveUnchecked { get; set; }
     public long? HaveValid { get; set; }
     public long? Have => HaveUnchecked + HaveValid;
     public bool? HonorsSessionLimits { get; set; }
