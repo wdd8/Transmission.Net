@@ -22,7 +22,7 @@ public class TorrentsResult
     /// Array of torrent-id numbers of recently-removed torrents
     /// </summary>
     [JsonProperty("removed")]
-    public TorrentView[]? Removed { get; set; }
+    public int[]? Removed { get; set; }
 
     public static implicit operator TorrentView[](TorrentsResult torrentsResult) { return torrentsResult.Torrents; }
 }

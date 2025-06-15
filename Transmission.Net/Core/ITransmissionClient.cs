@@ -74,6 +74,13 @@ public interface ITransmissionClient
     Task<NewTorrentInfo?> TorrentAddAsync(NewTorrent torrent);
 
     /// <summary>
+    /// Get <paramref name="fields"/> of recently active torrents (API: torrent-get)
+    /// </summary>
+    /// <param name="fields">Fields of torrents (empty for <see cref="TorrentFields.ALL_FIELDS"/>)</param>
+    /// <returns>Torrents info</returns>
+    Task<TorrentsResult?> TorrentGetRecentyActiveAsync(params string[] fields);
+
+    /// <summary>
     /// Get <paramref name="fields"/> of torrents from <paramref name="ids"/> (API: torrent-get)
     /// </summary>
     /// <param name="ids">IDs of torrents (<see langword="null"/> or empty for get all torrents)</param>
@@ -177,4 +184,15 @@ public interface ITransmissionClient
     /// </summary>
     /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
     Task TorrentVerifyAsync(object[] ids);
+
+    /// <summary>
+    /// Reannounce recently active torrents (API: torrent-reannounce)
+    /// </summary>
+    Task TorrentReannounceAsync();
+
+    /// <summary>
+    /// Reannounce torrents (API: torrent-reannounce)
+    /// </summary>
+    /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
+    Task TorrentReannounceAsync(object[] ids);
 }

@@ -36,8 +36,7 @@ public class TransmissionClient : ITransmissionClient
     /// <summary>
     /// Current Tag
     /// </summary>
-    public int CurrentTag
-    { get; private set; }
+    public int CurrentTag { get; private set; }
 
     /// <summary>
     /// Initialize client
@@ -154,6 +153,20 @@ public class TransmissionClient : ITransmissionClient
     {
         var request = new TransmissionRequest("torrent-set", settings);
         _ = await SendRequestAsync(request);
+    }
+
+    /// <inheritdoc/>
+    public async Task<TorrentsResult?> TorrentGetRecentyActiveAsync(params string[] fields)
+    {
+        var request = new TransmissionRequest("torrent-get", new Dictionary<string, object> {
+            { "fields", fields.Length != 0 ? fields : TorrentFields.ALL_FIELDS },
+            { "ids", "recently-active" }
+        });
+
+        var response = await SendRequestAsync(request);
+        var result = response.Deserialize<TorrentsResult>();
+
+        return result;
     }
 
     /// <inheritdoc/>
@@ -402,6 +415,46 @@ public class TransmissionClient : ITransmissionClient
     }
     #endregion
 
+    #region Torrent Reannounce
+
+    /// <summary>
+    /// Reannounce torrents (API: torrent-reannounce)
+    /// </summary>
+    /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
+    public async Task TorrentReannounceAsync(object[] ids)
+    {
+        var request = new TransmissionRequest("torrent-reannounce", new Dictionary<string, object> { { "ids", ids } });
+        _ = await SendRequestAsync(request);
+    }
+
+    /// <summary>
+    /// Reannounce torrents (API: torrent-reannounce)
+    /// </summary>
+    /// <param name="ids">A list of torrent id numbers</param>
+    public async Task TorrentReannounceAsync(params int[] ids)
+    {
+        await TorrentReannounceAsync(ids.Cast<object>().ToArray());
+    }
+
+    /// <summary>
+    /// Reannounce torrents (API: torrent-reannounce)
+    /// </summary>
+    /// <param name="hashes">A list of torrent sha1 hash strings</param>
+    public async Task TorrentReannounceAsync(params string[] hashes)
+    {
+        await TorrentReannounceAsync(hashes.Cast<object>().ToArray());
+    }
+
+    /// <summary>
+    /// Reannounce recently active torrents (API: torrent-reannounce)
+    /// </summary>
+    public async Task TorrentReannounceAsync()
+    {
+        var request = new TransmissionRequest("torrent-reannounce", new Dictionary<string, object> { { "ids", "recently-active" } });
+        _ = await SendRequestAsync(request);
+    }
+    #endregion
+
     /// <summary>
     /// Move torrents in queue on top (API: queue-move-top)
     /// </summary>
@@ -459,7 +512,7 @@ public class TransmissionClient : ITransmissionClient
         };
 
         var request = new TransmissionRequest("torrent-set-location", arguments);
-        _ = await SendRequestAsync(request);
+        _ = await SendRequestAsync(request, Timeout.InfiniteTimeSpan);
     }
 
     /// <summary>
@@ -565,7 +618,7 @@ public class TransmissionClient : ITransmissionClient
 
     #endregion
 
-    private async Task<TransmissionResponse> SendRequestAsync(TransmissionRequest request)
+    private async Task<TransmissionResponse> SendRequestAsync(TransmissionRequest request, TimeSpan? timeout = null)
     {
         TransmissionResponse? result;
 
@@ -573,6 +626,8 @@ public class TransmissionClient : ITransmissionClient
 
         //Prepare http web request
         HttpClient httpClient = new();
+        if (timeout != null)
+            httpClient.Timeout = timeout.Value;
 
         HttpRequestMessage httpRequest = new(HttpMethod.Post, Url);
         httpRequest.Headers.Add("X-Transmission-Session-Id", SessionID);

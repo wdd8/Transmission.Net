@@ -21,4 +21,16 @@ public interface ITorrentFile
     /// </summary>
     [JsonProperty("name")]
     string? Name { get; set; }
+
+    /// <summary>
+    /// Starting piece index
+    /// </summary>
+    [JsonProperty("begin_piece")]
+    long? BeginPiece { get; set; }
+
+    /// <summary>
+    /// Ending piece index
+    /// </summary>
+    [JsonProperty("end_piece")]
+    long? EndPiece { get; set; }
 }
