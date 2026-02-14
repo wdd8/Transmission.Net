@@ -235,7 +235,7 @@ public class SessionInfo
     /// Max global download speed (KBps)
     /// </summary>
     [JsonProperty("speed-limit-down")]
-    public int? SpeedLimitDown { get; set; }
+    public double? SpeedLimitDown { get; set; }
 
     /// <summary>
     /// True means enabled
@@ -247,7 +247,7 @@ public class SessionInfo
     ///  max global upload speed (KBps)
     /// </summary>
     [JsonProperty("speed-limit-up")]
-    public int? SpeedLimitUp { get; set; }
+    public double? SpeedLimitUp { get; set; }
 
     /// <summary>
     /// True means enabled
