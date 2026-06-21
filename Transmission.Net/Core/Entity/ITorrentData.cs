@@ -47,6 +47,12 @@ public interface ITorrentData
     int? PeerLimit { get; set; }
 
     /// <summary>
+    /// <see langword="true"/> if the torrent downloads its pieces sequentially
+    /// </summary>
+    [JsonProperty(SEQUENTIAL_DOWNLOAD)]
+    bool? SequentialDownload { get; set; }
+
+    /// <summary>
     /// Queue position
     /// </summary>
     [JsonProperty(QUEUE_POSITION)]

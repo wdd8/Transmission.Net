@@ -55,6 +55,7 @@ public class TorrentSettings : ArgumentsBase, ITorrentData
     public int? SeedIdleMode { get => GetValue<int?>("seedIdleMode"); set => this["seedIdleMode"] = value; }
     public double? SeedRatioLimit { get => GetValue<double?>("seedRatioLimit"); set => this["seedRatioLimit"] = value; }
     public int? SeedRatioMode { get => GetValue<int?>("seedRatioMode"); set => this["seedRatioMode"] = value; }
+    public bool? SequentialDownload { get => GetValue<bool?>("sequentialDownload"); set => this["sequentialDownload"] = value; }
     public int? UploadLimit { get => GetValue<int?>("uploadLimit"); set => this["uploadLimit"] = value; }
     public bool? UploadLimited { get => GetValue<bool?>("uploadLimited"); set => this["uploadLimited"] = value; }
 

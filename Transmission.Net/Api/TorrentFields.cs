@@ -184,6 +184,9 @@ public static class TorrentFields
     /// <inheritdoc cref="ITorrentData.SeedRatioMode"/>
     public const string SEED_RATIO_MODE = "seedRatioMode";
 
+    /// <inheritdoc cref="ITorrentData.SequentialDownload"/>
+    public const string SEQUENTIAL_DOWNLOAD = "sequentialDownload";
+
     /// <inheritdoc cref="ITorrentView.SizeWhenDone"/>
     public const string SIZE_WHEN_DONE = "sizeWhenDone";
 
@@ -294,6 +297,7 @@ public static class TorrentFields
                 SEED_IDLE_MODE,
                 SEED_RATIO_LIMIT,
                 SEED_RATIO_MODE,
+                SEQUENTIAL_DOWNLOAD,
                 SIZE_WHEN_DONE,
                 START_DATE,
                 STATUS,

@@ -90,6 +90,7 @@ public class TorrentView : ITorrentView
     public int? SeedIdleMode { get; set; }
     public double? SeedRatioLimit { get; set; }
     public int? SeedRatioMode { get; set; }
+    public bool? SequentialDownload { get; set; }
     public long? SizeWhenDone { get; set; }
     public DateTime? StartDate { get; set; }
     public TorrentStatus? Status { get; set; }
