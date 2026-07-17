@@ -83,10 +83,10 @@ public interface ITransmissionClient
     /// <summary>
     /// Get <paramref name="fields"/> of torrents from <paramref name="ids"/> (API: torrent-get)
     /// </summary>
-    /// <param name="ids">IDs of torrents (<see langword="null"/> or empty for get all torrents)</param>
+    /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both (<see langword="null"/> or empty for get all torrents)</param>
     /// <param name="fields">Fields of torrents (empty for <see cref="TorrentFields.ALL_FIELDS"/>)</param>
     /// <returns>Torrents info</returns>
-    Task<TorrentsResult?> TorrentGetAsync(int[]? ids = null, params string[] fields);
+    Task<TorrentsResult?> TorrentGetAsync(object[]? ids = null, params string[] fields);
 
     /// <summary>
     /// Move torrents to bottom in queue  (API: queue-move-bottom)
@@ -115,9 +115,9 @@ public interface ITransmissionClient
     /// <summary>
     /// Remove torrents
     /// </summary>
-    /// <param name="ids">Torrents id</param>
+    /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
     /// <param name="deleteData">Remove local data</param>
-    Task TorrentRemoveAsync(int[] ids, bool deleteData = false);
+    Task TorrentRemoveAsync(object[] ids, bool deleteData = false);
 
     /// <summary>
     /// Rename a file or directory in a torrent (API: torrent-rename-path)
@@ -136,10 +136,10 @@ public interface ITransmissionClient
     /// <summary>
     /// Set new location for torrents files (API: torrent-set-location)
     /// </summary>
-    /// <param name="ids">Torrent ids</param>
+    /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
     /// <param name="location">The new torrent location</param>
     /// <param name="move">Move from previous location</param>
-    Task TorrentSetLocationAsync(int[] ids, string location, bool move);
+    Task TorrentSetLocationAsync(object[] ids, string location, bool move);
 
     /// <summary>
     /// Start recently active torrents (API: torrent-start)

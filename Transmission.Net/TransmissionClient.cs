@@ -170,7 +170,7 @@ public class TransmissionClient : ITransmissionClient
     }
 
     /// <inheritdoc/>
-    public async Task<TorrentsResult?> TorrentGetAsync(int[]? ids = null, params string[] fields)
+    public async Task<TorrentsResult?> TorrentGetAsync(object[]? ids = null, params string[] fields)
     {
         var arguments = new Dictionary<string, object>
         {
@@ -209,7 +209,7 @@ public class TransmissionClient : ITransmissionClient
     /// <returns>Torrents info</returns>
     public async Task<TorrentsResult?> TorrentGetAsync(int id, params string[] fields)
     {
-        return await TorrentGetAsync(new int[] { id }, fields);
+        return await TorrentGetAsync(new object[] { id }, fields);
     }
 
     #region Torrent Remove
@@ -217,9 +217,9 @@ public class TransmissionClient : ITransmissionClient
     /// <summary>
     /// Remove torrents
     /// </summary>
-    /// <param name="ids">Torrents id</param>
+    /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
     /// <param name="deleteData">Remove data</param>
-    public async Task TorrentRemoveAsync(int[] ids, bool deleteData = false)
+    public async Task TorrentRemoveAsync(object[] ids, bool deleteData = false)
     {
         var arguments = new Dictionary<string, object>
         {
@@ -238,7 +238,7 @@ public class TransmissionClient : ITransmissionClient
     /// <param name="ids">Torrents id</param>
     public async Task TorrentRemoveAsync(bool deleteData, params int[] ids)
     {
-        await TorrentRemoveAsync(ids, deleteData);
+        await TorrentRemoveAsync(ids.Cast<object>().ToArray(), deleteData);
     }
 
     /// <summary>
@@ -247,7 +247,7 @@ public class TransmissionClient : ITransmissionClient
     /// <param name="ids">Torrents id</param>
     public async Task TorrentRemoveAsync(params int[] ids)
     {
-        await TorrentRemoveAsync(ids, false);
+        await TorrentRemoveAsync(ids.Cast<object>().ToArray(), false);
     }
 
     #endregion
@@ -499,10 +499,10 @@ public class TransmissionClient : ITransmissionClient
     /// <summary>
     /// Set new location for torrents files (API: torrent-set-location)
     /// </summary>
-    /// <param name="ids">Torrent ids</param>
+    /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
     /// <param name="location">The new torrent location</param>
     /// <param name="move">Move from previous location</param>
-    public async Task TorrentSetLocationAsync(int[] ids, string location, bool move)
+    public async Task TorrentSetLocationAsync(object[] ids, string location, bool move)
     {
         var arguments = new Dictionary<string, object>
         {
@@ -523,7 +523,7 @@ public class TransmissionClient : ITransmissionClient
     /// <param name="move">Move from previous location</param>
     public async Task TorrentSetLocationAsync(int id, string location, bool move)
     {
-        await TorrentSetLocationAsync(new[] { id }, location, move);
+        await TorrentSetLocationAsync(new object[] { id }, location, move);
     }
 
     #endregion
