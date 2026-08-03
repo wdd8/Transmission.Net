@@ -24,12 +24,12 @@ public class TorrentSettings : ArgumentsBase, ITorrentData
     /// <summary>
     /// Indices of file(s) to not download
     /// </summary>
-    public string? FilesUnwanted { get => GetValue<string?>("files-unwanted"); set => this["files-unwanted"] = value; }
+    public int[]? FilesUnwanted { get => GetValue<int[]?>("files-unwanted"); set => this["files-unwanted"] = value; }
 
     /// <summary>
     /// Indices of file(s) to download
     /// </summary>
-    public string? FilesWanted { get => GetValue<string?>("files-wanted"); set => this["files-wanted"] = value; }
+    public int[]? FilesWanted { get => GetValue<int[]?>("files-wanted"); set => this["files-wanted"] = value; }
 
     /// <summary>
     /// New location of the torrent's content
@@ -39,17 +39,17 @@ public class TorrentSettings : ArgumentsBase, ITorrentData
     /// <summary>
     /// Indices of high-priority file(s)
     /// </summary>
-    public string? PriorityHigh { get => GetValue<string?>("priority-high"); set => this["priority-high"] = value; }
+    public int[]? PriorityHigh { get => GetValue<int[]?>("priority-high"); set => this["priority-high"] = value; }
 
     /// <summary>
     /// Indices of low-priority file(s)
     /// </summary>
-    public string? PriorityLow { get => GetValue<string?>("priority-low"); set => this["priority-low"] = value; }
+    public int[]? PriorityLow { get => GetValue<int[]?>("priority-low"); set => this["priority-low"] = value; }
 
     /// <summary>
     /// Indices of normal-priority file(s)
     /// </summary>
-    public string? PriorityNormal { get => GetValue<string?>("priority-normal"); set => this["priority-normal"] = value; }
+    public int[]? PriorityNormal { get => GetValue<int[]?>("priority-normal"); set => this["priority-normal"] = value; }
     public int? QueuePosition { get => GetValue<int?>("queuePosition"); set => this["queuePosition"] = value; }
     public int? SeedIdleLimit { get => GetValue<int?>("seedIdleLimit"); set => this["seedIdleLimit"] = value; }
     public int? SeedIdleMode { get => GetValue<int?>("seedIdleMode"); set => this["seedIdleMode"] = value; }
