@@ -1,5 +1,7 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Transmission.Net.Api;
 
@@ -11,22 +13,22 @@ public class TransmissionResponse : CommunicateBase
     /// <summary>
     /// Data, on success
     /// </summary>
-    [JsonProperty("result")]
-    public JToken? Result;
+    [JsonPropertyName("result"), JsonInclude]
+    public JsonNode? Result;
 
     /// <summary>
     /// Error, on failure
     /// </summary>
-    [JsonProperty("error")]
+    [JsonPropertyName("error"), JsonInclude]
     public TransmissionError? Error;
 
     /// <summary>
     /// Deserialize to class
     /// </summary>
     /// <returns></returns>
-    public T? Deserialize<T>()
+    public T? Deserialize<T>(JsonTypeInfo<T> typeInfo)
     {
-        return Result == null ? default : Result.ToObject<T>();
+        return Result == null ? default : Result.Deserialize(typeInfo);
     }
 }
 
@@ -38,19 +40,19 @@ public class TransmissionError
     /// <summary>
     /// JSON-RPC error code
     /// </summary>
-    [JsonProperty("code")]
+    [JsonPropertyName("code")]
     public int Code { get; set; }
 
     /// <summary>
     /// Error message
     /// </summary>
-    [JsonProperty("message")]
+    [JsonPropertyName("message")]
     public string? Message { get; set; }
 
     /// <summary>
     /// Additional information
     /// </summary>
-    [JsonProperty("data")]
+    [JsonPropertyName("data")]
     public TransmissionErrorData? Data { get; set; }
 }
 
@@ -62,6 +64,6 @@ public class TransmissionErrorData
     /// <summary>
     /// Error details not included in <see cref="TransmissionError.Message"/>
     /// </summary>
-    [JsonProperty("error_string")]
+    [JsonPropertyName("error_string")]
     public string? ErrorString { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Transmission.Net.Api.Entity;
 
@@ -15,13 +15,13 @@ public class TorrentsResult
     /// <summary>
     /// Array of torrents
     /// </summary>
-    [JsonProperty("torrents")]
+    [JsonPropertyName("torrents")]
     public TorrentView[] Torrents { get; set; }
 
     /// <summary>
     /// Array of torrent-id numbers of recently-removed torrents
     /// </summary>
-    [JsonProperty("removed")]
+    [JsonPropertyName("removed")]
     public int[]? Removed { get; set; }
 
     public static implicit operator TorrentView[](TorrentsResult torrentsResult) { return torrentsResult.Torrents; }

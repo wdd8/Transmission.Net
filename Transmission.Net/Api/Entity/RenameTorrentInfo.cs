@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Transmission.Net.Api.Entity;
 
@@ -17,18 +17,18 @@ public class RenameTorrentInfo
     /// <summary>
     /// The torrent's unique Id.
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public int Id { get; set; }
 
     /// <summary>
     /// File path.
     /// </summary>
-    [JsonProperty("path")]
+    [JsonPropertyName("path")]
     public string Path { get; set; }
 
     /// <summary>
     /// File name.
     /// </summary>
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string Name { get; set; }
 }

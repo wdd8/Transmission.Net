@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using Transmission.Net.Core.Entity;
 
 namespace Transmission.Net.Api.Entity.Torrent;
@@ -14,8 +14,15 @@ public class TorrentTracker : ITorrentTracker
         Tier = tier;
     }
 
+    [JsonPropertyName("announce")]
     public string Announce { get; set; }
+
+    [JsonPropertyName("id")]
     public int Id { get; set; }
+
+    [JsonPropertyName("scrape")]
     public string Scrape { get; set; }
+
+    [JsonPropertyName("tier")]
     public int Tier { get; set; }
 }

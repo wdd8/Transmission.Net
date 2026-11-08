@@ -13,7 +13,6 @@
         <repository type="Github" url="https://github.com/rodrigost23/Transmission.Net" />
         <dependencies>
             <group targetFramework=".NET6.0">
-                <dependency id="Newtonsoft.Json" version="13.0.1" exclude="Build,Analyzers" />
                 <dependency id="System.Net.Http" version="4.3.4" exclude="Build,Analyzers" />
                 <dependency id="System.Net.Requests" version="4.3.0" exclude="Build,Analyzers" />
             </group>

@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Transmission.Net.Api;
 
@@ -10,13 +10,13 @@ public class TransmissionRequest : CommunicateBase
     /// <summary>
     /// Name of the method to invoke
     /// </summary>
-    [JsonProperty("method")]
+    [JsonPropertyName("method"), JsonInclude]
     public string Method;
 
     /// <summary>
     /// Data
     /// </summary>
-    [JsonProperty("params", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("params"), JsonInclude, JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Dictionary<string, object>? Parameters;
 
     /// <summary>

@@ -1,5 +1,5 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Transmission.Net.Api;
 
@@ -234,27 +234,27 @@ internal static class LegacyRpc
     public static string ToJson(TransmissionRequest request)
     {
         // download_dir is downloadDir in torrent-get and torrent-set, and download-dir everywhere else.
-        var arguments = request.Parameters == null ? null : (JObject)Rename(JObject.FromObject(request.Parameters),
-            x => x == "download_dir" ? ["download-dir", "downloadDir"] : [ToLegacy.GetValueOrDefault(x, x)]);
+        var arguments = request.Parameters == null ? null : (JsonObject)Rename(JsonSerializer.SerializeToNode(request.Parameters, TransmissionJsonContext.Default.DictionaryStringObject),
+            x => x == "download_dir" ? ["download-dir", "downloadDir"] : [ToLegacy.GetValueOrDefault(x, x)])!;
 
         if ((string?)arguments?["encryption"] == "allowed")
         {
             arguments!["encryption"] = "tolerated";
         }
 
-        return new JObject
+        return new JsonObject
         {
-            { "method", ToLegacy.GetValueOrDefault(request.Method, request.Method) },
-            { "arguments", arguments },
-            { "tag", request.Id }
-        }.ToString(Formatting.None);
+            ["method"] = ToLegacy.GetValueOrDefault(request.Method, request.Method),
+            ["arguments"] = arguments,
+            ["tag"] = request.Id
+        }.ToJsonString();
     }
 
     public static TransmissionResponse FromJson(string json)
     {
-        var response = JObject.Parse(json);
+        var response = JsonNode.Parse(json)!.AsObject();
         var result = (string?)response["result"];
-        var arguments = response["arguments"] is JObject args ? (JObject)Rename(args, x => [FromLegacy.GetValueOrDefault(x, x)]) : null;
+        var arguments = response["arguments"] is JsonObject args ? (JsonObject)Rename(args, x => [FromLegacy.GetValueOrDefault(x, x)])! : null;
 
         if ((string?)arguments?["encryption"] == "tolerated")
         {
@@ -269,31 +269,35 @@ internal static class LegacyRpc
         };
     }
 
-    private static JToken Rename(JToken token, Func<string, string[]> names, bool values = false)
+    private static JsonNode? Rename(JsonNode? node, Func<string, string[]> names, bool values = false)
     {
-        switch (token)
+        switch (node)
         {
-            case JObject obj:
-                var renamed = new JObject();
+            case JsonObject obj:
+                var renamed = new JsonObject();
 
-                foreach (var property in obj.Properties())
+                foreach (var (key, value) in obj)
                 {
-                    foreach (var name in names(property.Name))
+                    foreach (var name in names(key))
                     {
                         // Both legacy names of download_dir may be present, keep the first
-                        renamed[name] ??= Rename(property.Value, names, property.Name is "fields" or "ids");
+                        if (!renamed.ContainsKey(name))
+                        {
+                            renamed[name] = Rename(value, names, key is "fields" or "ids");
+                        }
                     }
                 }
 
                 return renamed;
-            case JArray array:
-                return new JArray(array.SelectMany(x => values && x.Type == JTokenType.String ?
-                    names((string)x!).Select(name => (JToken)new JValue(name)) :
-                    Rename(x, names, values)]));
-            case JValue { Type: JTokenType.String } value when values:
-                return new JValue(names((string)value!)[0]);
+            case JsonArray array:
+                return new JsonArray(array.SelectMany(x => values && x?.GetValueKind() == JsonValueKind.String ?
+                    names((string)x!).Select(name => (JsonNode?)JsonValue.Create(name)) :
+                    [Rename(x, names, values)]).ToArray());
+            case JsonValue value when values && value.GetValueKind() == JsonValueKind.String:
+                return JsonValue.Create(names((string)value!)[0]);
             default:
-                return token;
+                // A node can only have one parent
+                return node?.DeepClone();
         }
     }
 }

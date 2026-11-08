@@ -1,7 +1,7 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Transmission.Net.Api;
 using Transmission.Net.Api.Entity;
 using Transmission.Net.Api.Entity.Session;
@@ -97,7 +97,7 @@ public class TransmissionClient : ITransmissionClient
     {
         var request = new TransmissionRequest("session_stats");
         var response = await SendRequestAsync(request);
-        var result = response.Deserialize<Stats>();
+        var result = response.Deserialize(TransmissionJsonContext.Default.Stats);
         return result;
     }
 
@@ -110,7 +110,7 @@ public class TransmissionClient : ITransmissionClient
     {
         var request = new TransmissionRequest("session_get");
         var response = await SendRequestAsync(request);
-        var result = response.Deserialize<SessionInfo>();
+        var result = response.Deserialize(TransmissionJsonContext.Default.SessionInfo);
         return result;
     }
 
@@ -131,18 +131,16 @@ public class TransmissionClient : ITransmissionClient
 
         var request = new TransmissionRequest("torrent_add", torrent);
         var response = await SendRequestAsync(request);
-        var jObject = response.Deserialize<JObject>();
-
-        if (jObject == null || jObject.First == null)
+        if (response.Result is not JsonObject jObject)
         {
             return null;
         }
 
         NewTorrentInfo? result = null;
 
-        if (jObject.TryGetValue("torrent_duplicate", out var value) || jObject.TryGetValue("torrent_added", out value))
+        if (jObject.TryGetPropertyValue("torrent_duplicate", out var value) || jObject.TryGetPropertyValue("torrent_added", out value))
         {
-            result = JsonConvert.DeserializeObject<NewTorrentInfo>(value.ToString());
+            result = value.Deserialize(TransmissionJsonContext.Default.NewTorrentInfo);
         }
 
         return result;
@@ -167,7 +165,7 @@ public class TransmissionClient : ITransmissionClient
         });
 
         var response = await SendRequestAsync(request);
-        var result = response.Deserialize<TorrentsResult>();
+        var result = response.Deserialize(TransmissionJsonContext.Default.TorrentsResult);
 
         return result;
     }
@@ -188,7 +186,7 @@ public class TransmissionClient : ITransmissionClient
         var request = new TransmissionRequest("torrent_get", arguments);
 
         var response = await SendRequestAsync(request);
-        var result = response.Deserialize<TorrentsResult>();
+        var result = response.Deserialize(TransmissionJsonContext.Default.TorrentsResult);
 
         return result;
     }
@@ -549,7 +547,7 @@ public class TransmissionClient : ITransmissionClient
         var request = new TransmissionRequest("torrent_rename_path", arguments);
         var response = await SendRequestAsync(request);
 
-        var result = response.Deserialize<RenameTorrentInfo>();
+        var result = response.Deserialize(TransmissionJsonContext.Default.RenameTorrentInfo);
 
         return result;
     }
@@ -581,8 +579,7 @@ public class TransmissionClient : ITransmissionClient
         var request = new TransmissionRequest("port_test");
         var response = await SendRequestAsync(request);
 
-        var data = response.Deserialize<JObject>();
-        var result = (bool?)data?.GetValue("port_is_open");
+        var result = (bool?)response.Result?["port_is_open"];
         return result;
     }
 
@@ -595,8 +592,7 @@ public class TransmissionClient : ITransmissionClient
         var request = new TransmissionRequest("blocklist_update");
         var response = await SendRequestAsync(request);
 
-        var data = response.Deserialize<JObject>();
-        var result = (int?)data?.GetValue("blocklist_size");
+        var result = (int?)response.Result?["blocklist_size"];
         return result;
     }
 
@@ -614,8 +610,7 @@ public class TransmissionClient : ITransmissionClient
         var request = new TransmissionRequest("free_space", arguments);
         var response = await SendRequestAsync(request);
 
-        var data = response.Deserialize<JObject>();
-        var result = (long?)data?.GetValue("size_bytes");
+        var result = (long?)response.Result?["size_bytes"];
         return result;
     }
 
@@ -648,7 +643,7 @@ public class TransmissionClient : ITransmissionClient
             if (httpResponse.IsSuccessStatusCode)
             {
                 var responseString = await httpResponse.Content.ReadAsStringAsync();
-                result = _legacy ? LegacyRpc.FromJson(responseString) : JsonConvert.DeserializeObject<TransmissionResponse>(responseString);
+                result = _legacy ? LegacyRpc.FromJson(responseString) : JsonSerializer.Deserialize(responseString, TransmissionJsonContext.Default.TransmissionResponse);
 
                 if (result == null)
                 {
