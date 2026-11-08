@@ -264,7 +264,7 @@ internal static class LegacyRpc
         return new TransmissionResponse
         {
             Id = (int?)response["tag"],
-            Result = arguments,
+            Result = arguments == null ? null : JsonDocument.Parse(arguments.ToJsonString()).RootElement,
             Error = result == "success" ? null : new TransmissionError { Message = result ?? "Invalid response" }
         };
     }

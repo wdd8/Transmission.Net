@@ -1,5 +1,4 @@
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 
@@ -14,7 +13,7 @@ public class TransmissionResponse : CommunicateBase
     /// Data, on success
     /// </summary>
     [JsonPropertyName("result"), JsonInclude]
-    public JsonNode? Result;
+    public JsonElement? Result;
 
     /// <summary>
     /// Error, on failure
@@ -28,7 +27,7 @@ public class TransmissionResponse : CommunicateBase
     /// <returns></returns>
     public T? Deserialize<T>(JsonTypeInfo<T> typeInfo)
     {
-        return Result == null ? default : Result.Deserialize(typeInfo);
+        return Result is { } result ? result.Deserialize(typeInfo) : default;
     }
 }
 

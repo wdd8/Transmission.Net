@@ -1,7 +1,6 @@
 using System.Net;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using Transmission.Net.Api;
 using Transmission.Net.Api.Entity;
 using Transmission.Net.Api.Entity.Session;
@@ -21,6 +20,9 @@ public class TransmissionClient : ITransmissionClient
 
     // Before Transmission 4.1.0
     private bool _legacy = true;
+
+    private readonly SocketsHttpHandler _httpHandler = new();
+    private readonly HttpClient _httpClient;
 
     /// <summary>
     /// Url to service
@@ -57,6 +59,7 @@ public class TransmissionClient : ITransmissionClient
     {
         Url = url;
         SessionID = sessionID;
+        _httpClient = new HttpClient(_httpHandler, disposeHandler: false);
 
         if (!string.IsNullOrWhiteSpace(login))
         {
@@ -131,14 +134,14 @@ public class TransmissionClient : ITransmissionClient
 
         var request = new TransmissionRequest("torrent_add", torrent);
         var response = await SendRequestAsync(request);
-        if (response.Result is not JsonObject jObject)
+        if (response.Result is not { ValueKind: JsonValueKind.Object } jObject)
         {
             return null;
         }
 
         NewTorrentInfo? result = null;
 
-        if (jObject.TryGetPropertyValue("torrent_duplicate", out var value) || jObject.TryGetPropertyValue("torrent_added", out value))
+        if (jObject.TryGetProperty("torrent_duplicate", out var value) || jObject.TryGetProperty("torrent_added", out value))
         {
             result = value.Deserialize(TransmissionJsonContext.Default.NewTorrentInfo);
         }
@@ -579,7 +582,7 @@ public class TransmissionClient : ITransmissionClient
         var request = new TransmissionRequest("port_test");
         var response = await SendRequestAsync(request);
 
-        var result = (bool?)response.Result?["port_is_open"];
+        var result = response.Result is { } r && r.TryGetProperty("port_is_open", out var value) && value.ValueKind is JsonValueKind.True or JsonValueKind.False ? value.GetBoolean() : (bool?)null;
         return result;
     }
 
@@ -592,7 +595,7 @@ public class TransmissionClient : ITransmissionClient
         var request = new TransmissionRequest("blocklist_update");
         var response = await SendRequestAsync(request);
 
-        var result = (int?)response.Result?["blocklist_size"];
+        var result = response.Result is { } r && r.TryGetProperty("blocklist_size", out var value) && value.ValueKind == JsonValueKind.Number ? value.GetInt32() : (int?)null;
         return result;
     }
 
@@ -610,7 +613,7 @@ public class TransmissionClient : ITransmissionClient
         var request = new TransmissionRequest("free_space", arguments);
         var response = await SendRequestAsync(request);
 
-        var result = (long?)response.Result?["size_bytes"];
+        var result = response.Result is { } r && r.TryGetProperty("size_bytes", out var value) && value.ValueKind == JsonValueKind.Number ? value.GetInt64() : (long?)null;
         return result;
     }
 
@@ -623,9 +626,9 @@ public class TransmissionClient : ITransmissionClient
         request.Id = ++CurrentTag;
 
         //Prepare http web request
-        HttpClient httpClient = new();
-        if (timeout != null)
-            httpClient.Timeout = timeout.Value;
+        // A different timeout needs its own client, on the same handler so it still shares the connections
+        using var timeoutClient = timeout == null ? null : new HttpClient(_httpHandler, disposeHandler: false) { Timeout = timeout.Value };
+        var httpClient = timeoutClient ?? _httpClient;
 
         HttpRequestMessage httpRequest = new(HttpMethod.Post, Url);
         httpRequest.Headers.Add("X-Transmission-Session-Id", SessionID);
@@ -642,8 +645,15 @@ public class TransmissionClient : ITransmissionClient
         {
             if (httpResponse.IsSuccessStatusCode)
             {
-                var responseString = await httpResponse.Content.ReadAsStringAsync();
-                result = _legacy ? LegacyRpc.FromJson(responseString) : JsonSerializer.Deserialize(responseString, TransmissionJsonContext.Default.TransmissionResponse);
+                if (_legacy)
+                {
+                    result = LegacyRpc.FromJson(await httpResponse.Content.ReadAsStringAsync());
+                }
+                else
+                {
+                    await using var responseStream = await httpResponse.Content.ReadAsStreamAsync();
+                    result = await JsonSerializer.DeserializeAsync(responseStream, TransmissionJsonContext.Default.TransmissionResponse);
+                }
 
                 if (result == null)
                 {
