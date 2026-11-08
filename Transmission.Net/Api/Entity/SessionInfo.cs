@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Transmission.Net.Api.Entity.Session;
 
 namespace Transmission.Net.Api.Entity;
@@ -11,96 +11,96 @@ public class SessionInfo
     /// <summary>
     /// Max global download speed (KBps)
     /// </summary>
-    [JsonProperty("alt-speed-down")]
+    [JsonProperty("alt_speed_down")]
     public int? AlternativeSpeedDown { get; set; }
 
     /// <summary>
     /// True means use the alt speeds
     /// </summary>
-    [JsonProperty("alt-speed-enabled")]
+    [JsonProperty("alt_speed_enabled")]
     public bool? AlternativeSpeedEnabled { get; set; }
 
     /// <summary>
     /// When to turn on alt speeds (units: minutes after midnight)
     /// </summary>
-    [JsonProperty("alt-speed-time-begin")]
+    [JsonProperty("alt_speed_time_begin")]
     public int? AlternativeSpeedTimeBegin { get; set; }
 
     /// <summary>
     /// True means the scheduled on/off times are used
     /// </summary>
-    [JsonProperty("alt-speed-time-enabled")]
+    [JsonProperty("alt_speed_time_enabled")]
     public bool? AlternativeSpeedTimeEnabled { get; set; }
 
     /// <summary>
     /// When to turn off alt speeds
     /// </summary>
-    [JsonProperty("alt-speed-time-end")]
+    [JsonProperty("alt_speed_time_end")]
     public int? AlternativeSpeedTimeEnd { get; set; }
 
     /// <summary>
     /// What day(s) to turn on alt speeds
     /// </summary>
-    [JsonProperty("alt-speed-time-day")]
+    [JsonProperty("alt_speed_time_day")]
     public int? AlternativeSpeedTimeDay { get; set; }
 
     /// <summary>
     /// Max global upload speed (KBps)
     /// </summary>
-    [JsonProperty("alt-speed-up")]
+    [JsonProperty("alt_speed_up")]
     public int? AlternativeSpeedUp { get; set; }
 
     /// <summary>
-    /// Location of the blocklist to use for "blocklist-update"
+    /// Location of the blocklist to use for "blocklist_update"
     /// </summary>
-    [JsonProperty("blocklist-url")]
+    [JsonProperty("blocklist_url")]
     public string? BlocklistURL { get; set; }
 
     /// <summary>
     /// True means enabled
     /// </summary>
-    [JsonProperty("blocklist-enabled")]
+    [JsonProperty("blocklist_enabled")]
     public bool? BlocklistEnabled { get; set; }
 
     /// <summary>
     /// Maximum size of the disk cache (MB)
     /// </summary>
-    [JsonProperty("cache-size-mb")]
+    [JsonProperty("cache_size_mib")]
     public int? CacheSizeMB { get; set; }
 
     /// <summary>
     /// Default path to download torrents
     /// </summary>
-    [JsonProperty("download-dir")]
+    [JsonProperty("download_dir")]
     public string? DownloadDirectory { get; set; }
 
     /// <summary>
     /// Free space in download dir
     /// </summary>
-    [JsonProperty("download-dir-free-space")]
-    [Obsolete("Obsolete since Transmission 4.0.0. Use the free-space method instead.")]
+    [JsonProperty("download_dir_free_space")]
+    [Obsolete("Obsolete since Transmission 4.0.0. Use the free_space method instead.")]
     public string? DownloadDirectoryFreeSpace { get; set; }
 
     /// <summary>
-    /// Max number of torrents to download at once (see download-queue-enabled)
+    /// Max number of torrents to download at once (see download_queue_enabled)
     /// </summary>
-    [JsonProperty("download-queue-size")]
+    [JsonProperty("download_queue_size")]
     public int? DownloadQueueSize { get; set; }
 
     /// <summary>
     /// If true, limit how many torrents can be downloaded at once
     /// </summary>
-    [JsonProperty("download-queue-enabled")]
+    [JsonProperty("download_queue_enabled")]
     public bool? DownloadQueueEnabled { get; set; }
 
     /// <summary>
     /// True means allow dht in public torrents
     /// </summary>
-    [JsonProperty("dht-enabled")]
+    [JsonProperty("dht_enabled")]
     public bool? DHTEnabled { get; set; }
 
     /// <summary>
-    /// "required", "preferred", "tolerated"
+    /// "required", "preferred", "allowed"
     /// </summary>
     [JsonProperty("encryption")]
     public string? Encryption { get; set; }
@@ -108,163 +108,163 @@ public class SessionInfo
     /// <summary>
     /// Torrents we're seeding will be stopped if they're idle for this long
     /// </summary>
-    [JsonProperty("idle-seeding-limit")]
+    [JsonProperty("idle_seeding_limit")]
     public int? IdleSeedingLimit { get; set; }
 
     /// <summary>
     /// True if the seeding inactivity limit is honored by default
     /// </summary>
-    [JsonProperty("idle-seeding-limit-enabled")]
+    [JsonProperty("idle_seeding_limit_enabled")]
     public bool? IdleSeedingLimitEnabled { get; set; }
 
     /// <summary>
     /// Path for incomplete torrents, when enabled
     /// </summary>
-    [JsonProperty("incomplete-dir")]
+    [JsonProperty("incomplete_dir")]
     public string? IncompleteDirectory { get; set; }
 
     /// <summary>
-    /// True means keep torrents in incomplete-dir until done
+    /// True means keep torrents in incomplete_dir until done
     /// </summary>
-    [JsonProperty("incomplete-dir-enabled")]
+    [JsonProperty("incomplete_dir_enabled")]
     public bool? IncompleteDirectoryEnabled { get; set; }
 
     /// <summary>
     /// True means allow Local Peer Discovery in public torrents
     /// </summary>
-    [JsonProperty("lpd-enabled")]
+    [JsonProperty("lpd_enabled")]
     public bool? LPDEnabled { get; set; }
 
     /// <summary>
     /// Maximum global number of peers
     /// </summary>
-    [JsonProperty("peer-limit-global")]
+    [JsonProperty("peer_limit_global")]
     public int? PeerLimitGlobal { get; set; }
 
     /// <summary>
     /// Maximum global number of peers
     /// </summary>
-    [JsonProperty("peer-limit-per-torrent")]
+    [JsonProperty("peer_limit_per_torrent")]
     public int? PeerLimitPerTorrent { get; set; }
 
     /// <summary>
     /// True means allow pex in public torrents
     /// </summary>
-    [JsonProperty("pex-enabled")]
+    [JsonProperty("pex_enabled")]
     public bool? PexEnabled { get; set; }
 
     /// <summary>
     /// Port number
     /// </summary>
-    [JsonProperty("peer-port")]
+    [JsonProperty("peer_port")]
     public int? PeerPort { get; set; }
 
     /// <summary>
     /// True means pick a random peer port on launch
     /// </summary>
-    [JsonProperty("peer-port-random-on-start")]
+    [JsonProperty("peer_port_random_on_start")]
     public bool? PeerPortRandomOnStart { get; set; }
 
     /// <summary>
     /// true means enabled
     /// </summary>
-    [JsonProperty("port-forwarding-enabled")]
+    [JsonProperty("port_forwarding_enabled")]
     public bool? PortForwardingEnabled { get; set; }
 
     /// <summary>
     /// Whether or not to consider idle torrents as stalled
     /// </summary>
-    [JsonProperty("queue-stalled-enabled")]
+    [JsonProperty("queue_stalled_enabled")]
     public bool? QueueStalledEnabled { get; set; }
 
     /// <summary>
-    /// Torrents that are idle for N minuets aren't counted toward seed-queue-size or download-queue-size
+    /// Torrents that are idle for N minuets aren't counted toward seed_queue_size or download_queue_size
     /// </summary>
-    [JsonProperty("queue-stalled-minutes")]
+    [JsonProperty("queue_stalled_minutes")]
     public int? QueueStalledMinutes { get; set; }
 
     /// <summary>
     /// True means append ".part" to incomplete files
     /// </summary>
-    [JsonProperty("rename-partial-files")]
+    [JsonProperty("rename_partial_files")]
     public bool? RenamePartialFiles { get; set; }
 
     /// <summary>
     /// Session ID
     /// </summary>
-    [JsonProperty("session-id")]
+    [JsonProperty("session_id")]
     public string? SessionID { get; set; }
 
     /// <summary>
     /// Filename of the script to run
     /// </summary>
-    [JsonProperty("script-torrent-done-filename")]
+    [JsonProperty("script_torrent_done_filename")]
     public string? ScriptTorrentDoneFilename { get; set; }
 
     /// <summary>
     /// Whether or not to call the "done" script
     /// </summary>
-    [JsonProperty("script-torrent-done-enabled")]
+    [JsonProperty("script_torrent_done_enabled")]
     public bool? ScriptTorrentDoneEnabled { get; set; }
 
     /// <summary>
     /// The default seed ratio for torrents to use
     /// </summary>
-    [JsonProperty("seedRatioLimit")]
+    [JsonProperty("seed_ratio_limit")]
     public double? SeedRatioLimit { get; set; }
 
     /// <summary>
-    /// True if seedRatioLimit is honored by default
+    /// True if seed_ratio_limit is honored by default
     /// </summary>
-    [JsonProperty("seedRatioLimited")]
+    [JsonProperty("seed_ratio_limited")]
     public bool? SeedRatioLimited { get; set; }
 
     /// <summary>
-    /// Max number of torrents to uploaded at once (see seed-queue-enabled)
+    /// Max number of torrents to uploaded at once (see seed_queue_enabled)
     /// </summary>
-    [JsonProperty("seed-queue-size")]
+    [JsonProperty("seed_queue_size")]
     public int? SeedQueueSize { get; set; }
 
     /// <summary>
     /// If true, limit how many torrents can be uploaded at once
     /// </summary>
-    [JsonProperty("seed-queue-enabled")]
+    [JsonProperty("seed_queue_enabled")]
     public bool? SeedQueueEnabled { get; set; }
 
     /// <summary>
     /// Max global download speed (KBps)
     /// </summary>
-    [JsonProperty("speed-limit-down")]
+    [JsonProperty("speed_limit_down")]
     public double? SpeedLimitDown { get; set; }
 
     /// <summary>
     /// True means enabled
     /// </summary>
-    [JsonProperty("speed-limit-down-enabled")]
+    [JsonProperty("speed_limit_down_enabled")]
     public bool? SpeedLimitDownEnabled { get; set; }
 
     /// <summary>
     ///  max global upload speed (KBps)
     /// </summary>
-    [JsonProperty("speed-limit-up")]
+    [JsonProperty("speed_limit_up")]
     public double? SpeedLimitUp { get; set; }
 
     /// <summary>
     /// True means enabled
     /// </summary>
-    [JsonProperty("speed-limit-up-enabled")]
+    [JsonProperty("speed_limit_up_enabled")]
     public bool? SpeedLimitUpEnabled { get; set; }
 
     /// <summary>
     /// True means added torrents will be started right away
     /// </summary>
-    [JsonProperty("start-added-torrents")]
+    [JsonProperty("start_added_torrents")]
     public bool? StartAddedTorrents { get; set; }
 
     /// <summary>
     /// True means the .torrent file of added torrents will be deleted
     /// </summary>
-    [JsonProperty("trash-original-torrent-files")]
+    [JsonProperty("trash_original_torrent_files")]
     public bool? TrashOriginalTorrentFiles { get; set; }
 
     /// <summary>
@@ -276,31 +276,31 @@ public class SessionInfo
     /// <summary>
     /// True means allow utp
     /// </summary>
-    [JsonProperty("utp-enabled")]
+    [JsonProperty("utp_enabled")]
     public bool? UtpEnabled { get; set; }
 
     /// <summary>
     /// Number of rules in the blocklist
     /// </summary>
-    [JsonProperty("blocklist-size")]
+    [JsonProperty("blocklist_size")]
     public int? BlocklistSize { get; set; }
 
     /// <summary>
     /// Location of transmission's configuration directory
     /// </summary>
-    [JsonProperty("config-dir")]
+    [JsonProperty("config_dir")]
     public string? ConfigDirectory { get; set; }
 
     /// <summary>
     /// The current RPC API version
     /// </summary>
-    [JsonProperty("rpc-version")]
+    [JsonProperty("rpc_version")]
     public int? RpcVersion { get; set; }
 
     /// <summary>
     /// The minimum RPC API version supported
     /// </summary>
-    [JsonProperty("rpc-version-minimum")]
+    [JsonProperty("rpc_version_minimum")]
     public int? RpcVersionMinimum { get; set; }
 
     /// <summary>

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Transmission.Net.Api.Entity.Session;
 
@@ -10,43 +10,43 @@ public class Stats
     /// <summary>
     /// Active torrent count
     /// </summary>
-    [JsonProperty("activeTorrentCount")]
+    [JsonProperty("active_torrent_count")]
     public int? ActiveTorrentCount { get; set; }
 
     /// <summary>
     /// Download speed
     /// </summary>
-    [JsonProperty("downloadSpeed")]
+    [JsonProperty("download_speed")]
     public int? DownloadSpeed { get; set; }
 
     /// <summary>
     /// Paused torrent count
     /// </summary>
-    [JsonProperty("pausedTorrentCount")]
+    [JsonProperty("paused_torrent_count")]
     public int? PausedTorrentCount { get; set; }
 
     /// <summary>
     /// Torrent count
     /// </summary>
-    [JsonProperty("torrentCount")]
+    [JsonProperty("torrent_count")]
     public int? TorrentCount { get; set; }
 
     /// <summary>
     /// Upload speed
     /// </summary>
-    [JsonProperty("uploadSpeed")]
+    [JsonProperty("upload_speed")]
     public int? UploadSpeed { get; set; }
 
     /// <summary>
     /// Cumulative stats
     /// </summary>
-    [JsonProperty("cumulative-stats")]
+    [JsonProperty("cumulative_stats")]
     public CommonStats? CumulativeStats { get; set; }
 
     /// <summary>
     /// Current stats
     /// </summary>
-    [JsonProperty("current-stats")]
+    [JsonProperty("current_stats")]
     public CommonStats? CurrentStats { get; set; }
 }
 
@@ -58,30 +58,30 @@ public class CommonStats
     /// <summary>
     /// Uploaded bytes
     /// </summary>
-    [JsonProperty("uploadedBytes")]
+    [JsonProperty("uploaded_bytes")]
     public double? UploadedBytes { get; set; }
 
     /// <summary>
     /// Downloaded bytes
     /// </summary>
-    [JsonProperty("downloadedBytes")]
+    [JsonProperty("downloaded_bytes")]
     public double? DownloadedBytes { get; set; }
 
     /// <summary>
     /// Files added
     /// </summary>
-    [JsonProperty("filesAdded")]
+    [JsonProperty("files_added")]
     public int? FilesAdded { get; set; }
 
     /// <summary>
     /// Session count
     /// </summary>
-    [JsonProperty("SessionCount")]
+    [JsonProperty("session_count")]
     public int? SessionCount { get; set; }
 
     /// <summary>
     /// Seconds active
     /// </summary>
-    [JsonProperty("SecondsActive")]
+    [JsonProperty("seconds_active")]
     public int? SecondsActive { get; set; }
 }

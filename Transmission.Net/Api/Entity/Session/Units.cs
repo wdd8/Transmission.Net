@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Transmission.Net.Api.Entity.Session;
 
@@ -10,36 +10,36 @@ public class Units
     /// <summary>
     /// Speed units
     /// </summary>
-    [JsonProperty("speed-units")]
+    [JsonProperty("speed_units")]
     public string[]? SpeedUnits { get; set; }
 
     /// <summary>
     /// Speed bytes
     /// </summary>
-    [JsonProperty("speed-bytes")]
+    [JsonProperty("speed_bytes")]
     public int? SpeedBytes { get; set; }
 
     /// <summary>
     /// Size units
     /// </summary>
-    [JsonProperty("size-units")]
+    [JsonProperty("size_units")]
     public string[]? SizeUnits { get; set; }
 
     /// <summary>
     /// Size bytes
     /// </summary>
-    [JsonProperty("size-bytes")]
+    [JsonProperty("size_bytes")]
     public int? SizeBytes { get; set; }
 
     /// <summary>
     /// Memory units
     /// </summary>
-    [JsonProperty("memory-units")]
+    [JsonProperty("memory_units")]
     public string[]? MemoryUnits { get; set; }
 
     /// <summary>
     /// Memory bytes
     /// </summary>
-    [JsonProperty("memory-bytes")]
+    [JsonProperty("memory_bytes")]
     public int? MemoryBytes { get; set; }
 }

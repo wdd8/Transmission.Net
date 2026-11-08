@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Transmission.Net.Core.Enums;
 
 namespace Transmission.Net.Core.Entity.Torrent;
@@ -8,7 +8,7 @@ public interface ITorrentFileStats
     /// <summary>
     /// <inheritdoc cref="ITorrentFile.BytesCompleted"/>
     /// </summary>
-    [JsonProperty("bytesCompleted")]
+    [JsonProperty("bytes_completed")]
     double BytesCompleted { get; set; }
 
     /// <summary>

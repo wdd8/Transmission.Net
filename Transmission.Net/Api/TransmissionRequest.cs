@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Transmission.Net.Api;
 
 /// <summary>
-/// Transmission request 
+/// Transmission request
 /// </summary>
 public class TransmissionRequest : CommunicateBase
 {
@@ -12,6 +12,12 @@ public class TransmissionRequest : CommunicateBase
     /// </summary>
     [JsonProperty("method")]
     public string Method;
+
+    /// <summary>
+    /// Data
+    /// </summary>
+    [JsonProperty("params", NullValueHandling = NullValueHandling.Ignore)]
+    public Dictionary<string, object>? Parameters;
 
     /// <summary>
     /// Initialize request
@@ -23,24 +29,24 @@ public class TransmissionRequest : CommunicateBase
     }
 
     /// <summary>
-    /// Initialize request 
+    /// Initialize request
     /// </summary>
     /// <param name="method">Method name</param>
     /// <param name="arguments">Arguments</param>
     public TransmissionRequest(string method, ArgumentsBase arguments)
     {
         Method = method;
-        Arguments = arguments.Data;
+        Parameters = arguments.Data;
     }
 
     /// <summary>
-    /// Initialize request 
+    /// Initialize request
     /// </summary>
     /// <param name="method">Method name</param>
     /// <param name="arguments">Arguments</param>
     public TransmissionRequest(string method, Dictionary<string, object> arguments)
     {
         Method = method;
-        Arguments = arguments;
+        Parameters = arguments;
     }
 }

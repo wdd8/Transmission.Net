@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Transmission.Net.Core.Entity.Torrent;
 
@@ -10,36 +10,36 @@ public interface ITorrentPeersFrom
     /// <summary>
     /// From DHT
     /// </summary>
-    [JsonProperty("fromDht")]
+    [JsonProperty("from_dht")]
     int FromDHT { get; set; }
 
     /// <summary>
     /// From incoming
     /// </summary>
-    [JsonProperty("fromIncoming")]
+    [JsonProperty("from_incoming")]
     int FromIncoming { get; set; }
 
     /// <summary>
     /// From LPD
     /// </summary>
-    [JsonProperty("fromLpd")]
+    [JsonProperty("from_lpd")]
     int FromLPD { get; set; }
 
     /// <summary>
     /// From LTEP
     /// </summary>
-    [JsonProperty("fromLtep")]
+    [JsonProperty("from_ltep")]
     int FromLTEP { get; set; }
 
     /// <summary>
     /// From PEX
     /// </summary>
-    [JsonProperty("fromPex")]
+    [JsonProperty("from_pex")]
     int FromPEX { get; set; }
 
     /// <summary>
     /// From tracker
     /// </summary>
-    [JsonProperty("fromTracker")]
+    [JsonProperty("from_tracker")]
     int FromTracker { get; set; }
 }

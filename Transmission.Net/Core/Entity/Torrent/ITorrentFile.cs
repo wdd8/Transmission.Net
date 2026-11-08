@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Transmission.Net.Core.Entity.Torrent;
 
@@ -7,7 +7,7 @@ public interface ITorrentFile
     /// <summary>
     /// The current size of the file, i.e. how much we've downloaded
     /// </summary>
-    [JsonProperty("bytesCompleted")]
+    [JsonProperty("bytes_completed")]
     long? BytesCompleted { get; set; }
 
     /// <summary>

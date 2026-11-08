@@ -19,6 +19,9 @@ public class TransmissionClient : ITransmissionClient
     private readonly string? _authorization;
     private readonly bool _needAuthorization;
 
+    // Before Transmission 4.1.0
+    private bool _legacy = true;
+
     /// <summary>
     /// Url to service
     /// </summary>
@@ -72,7 +75,7 @@ public class TransmissionClient : ITransmissionClient
     /// </summary>
     public async Task CloseSessionAsync()
     {
-        var request = new TransmissionRequest("session-close");
+        var request = new TransmissionRequest("session_close");
         _ = await SendRequestAsync(request);
     }
 
@@ -82,7 +85,7 @@ public class TransmissionClient : ITransmissionClient
     /// <param name="settings">New session settings</param>
     public async Task SetSessionSettingsAsync(SessionSettings settings)
     {
-        var request = new TransmissionRequest("session-set", settings);
+        var request = new TransmissionRequest("session_set", settings);
         _ = await SendRequestAsync(request);
     }
 
@@ -92,7 +95,7 @@ public class TransmissionClient : ITransmissionClient
     /// <returns>Session stat</returns>
     public async Task<Stats?> GetSessionStatisticAsync()
     {
-        var request = new TransmissionRequest("session-stats");
+        var request = new TransmissionRequest("session_stats");
         var response = await SendRequestAsync(request);
         var result = response.Deserialize<Stats>();
         return result;
@@ -105,7 +108,7 @@ public class TransmissionClient : ITransmissionClient
     //TODO: support optional "fields" argument
     public async Task<SessionInfo?> GetSessionInformationAsync()
     {
-        var request = new TransmissionRequest("session-get");
+        var request = new TransmissionRequest("session_get");
         var response = await SendRequestAsync(request);
         var result = response.Deserialize<SessionInfo>();
         return result;
@@ -126,7 +129,7 @@ public class TransmissionClient : ITransmissionClient
             throw new ArgumentException("Either \"filename\" or \"metainfo\" must be included.");
         }
 
-        var request = new TransmissionRequest("torrent-add", torrent);
+        var request = new TransmissionRequest("torrent_add", torrent);
         var response = await SendRequestAsync(request);
         var jObject = response.Deserialize<JObject>();
 
@@ -137,7 +140,7 @@ public class TransmissionClient : ITransmissionClient
 
         NewTorrentInfo? result = null;
 
-        if (jObject.TryGetValue("torrent-duplicate", out var value) || jObject.TryGetValue("torrent-added", out value))
+        if (jObject.TryGetValue("torrent_duplicate", out var value) || jObject.TryGetValue("torrent_added", out value))
         {
             result = JsonConvert.DeserializeObject<NewTorrentInfo>(value.ToString());
         }
@@ -151,16 +154,16 @@ public class TransmissionClient : ITransmissionClient
     /// <param name="settings">Torrent settings</param>
     public async Task TorrentSetAsync(TorrentSettings settings)
     {
-        var request = new TransmissionRequest("torrent-set", settings);
+        var request = new TransmissionRequest("torrent_set", settings);
         _ = await SendRequestAsync(request);
     }
 
     /// <inheritdoc/>
     public async Task<TorrentsResult?> TorrentGetRecentyActiveAsync(params string[] fields)
     {
-        var request = new TransmissionRequest("torrent-get", new Dictionary<string, object> {
+        var request = new TransmissionRequest("torrent_get", new Dictionary<string, object> {
             { "fields", fields.Length != 0 ? fields : TorrentFields.ALL_FIELDS },
-            { "ids", "recently-active" }
+            { "ids", "recently_active" }
         });
 
         var response = await SendRequestAsync(request);
@@ -182,7 +185,7 @@ public class TransmissionClient : ITransmissionClient
             arguments.Add("ids", ids);
         }
 
-        var request = new TransmissionRequest("torrent-get", arguments);
+        var request = new TransmissionRequest("torrent_get", arguments);
 
         var response = await SendRequestAsync(request);
         var result = response.Deserialize<TorrentsResult>();
@@ -224,10 +227,10 @@ public class TransmissionClient : ITransmissionClient
         var arguments = new Dictionary<string, object>
         {
             { "ids", ids },
-            { "delete-local-data", deleteData }
+            { "delete_local_data", deleteData }
         };
 
-        var request = new TransmissionRequest("torrent-remove", arguments);
+        var request = new TransmissionRequest("torrent_remove", arguments);
         _ = await SendRequestAsync(request);
     }
 
@@ -260,7 +263,7 @@ public class TransmissionClient : ITransmissionClient
     /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
     public async Task TorrentStartAsync(object[] ids)
     {
-        var request = new TransmissionRequest("torrent-start", new Dictionary<string, object> { { "ids", ids } });
+        var request = new TransmissionRequest("torrent_start", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
     }
 
@@ -287,7 +290,7 @@ public class TransmissionClient : ITransmissionClient
     /// </summary>
     public async Task TorrentStartAsync()
     {
-        var request = new TransmissionRequest("torrent-start", new Dictionary<string, object> { { "ids", "recently-active" } });
+        var request = new TransmissionRequest("torrent_start", new Dictionary<string, object> { { "ids", "recently_active" } });
         _ = await SendRequestAsync(request);
     }
 
@@ -301,7 +304,7 @@ public class TransmissionClient : ITransmissionClient
     /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
     public async Task TorrentStartNowAsync(object[] ids)
     {
-        var request = new TransmissionRequest("torrent-start-now", new Dictionary<string, object> { { "ids", ids } });
+        var request = new TransmissionRequest("torrent_start_now", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
     }
 
@@ -328,7 +331,7 @@ public class TransmissionClient : ITransmissionClient
     /// </summary>
     public async Task TorrentStartNowAsync()
     {
-        var request = new TransmissionRequest("torrent-start-now", new Dictionary<string, object> { { "ids", "recently-active" } });
+        var request = new TransmissionRequest("torrent_start_now", new Dictionary<string, object> { { "ids", "recently_active" } });
         _ = await SendRequestAsync(request);
     }
 
@@ -342,7 +345,7 @@ public class TransmissionClient : ITransmissionClient
     /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
     public async Task TorrentStopAsync(object[] ids)
     {
-        var request = new TransmissionRequest("torrent-stop", new Dictionary<string, object> { { "ids", ids } });
+        var request = new TransmissionRequest("torrent_stop", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
     }
 
@@ -369,7 +372,7 @@ public class TransmissionClient : ITransmissionClient
     /// </summary>
     public async Task TorrentStopAsync()
     {
-        var request = new TransmissionRequest("torrent-stop", new Dictionary<string, object> { { "ids", "recently-active" } });
+        var request = new TransmissionRequest("torrent_stop", new Dictionary<string, object> { { "ids", "recently_active" } });
         _ = await SendRequestAsync(request);
     }
 
@@ -383,7 +386,7 @@ public class TransmissionClient : ITransmissionClient
     /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
     public async Task TorrentVerifyAsync(object[] ids)
     {
-        var request = new TransmissionRequest("torrent-verify", new Dictionary<string, object> { { "ids", ids } });
+        var request = new TransmissionRequest("torrent_verify", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
     }
 
@@ -410,7 +413,7 @@ public class TransmissionClient : ITransmissionClient
     /// </summary>
     public async Task TorrentVerifyAsync()
     {
-        var request = new TransmissionRequest("torrent-verify", new Dictionary<string, object> { { "ids", "recently-active" } });
+        var request = new TransmissionRequest("torrent_verify", new Dictionary<string, object> { { "ids", "recently_active" } });
         _ = await SendRequestAsync(request);
     }
     #endregion
@@ -423,7 +426,7 @@ public class TransmissionClient : ITransmissionClient
     /// <param name="ids">A list of torrent id numbers, sha1 hash strings, or both</param>
     public async Task TorrentReannounceAsync(object[] ids)
     {
-        var request = new TransmissionRequest("torrent-reannounce", new Dictionary<string, object> { { "ids", ids } });
+        var request = new TransmissionRequest("torrent_reannounce", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
     }
 
@@ -450,7 +453,7 @@ public class TransmissionClient : ITransmissionClient
     /// </summary>
     public async Task TorrentReannounceAsync()
     {
-        var request = new TransmissionRequest("torrent-reannounce", new Dictionary<string, object> { { "ids", "recently-active" } });
+        var request = new TransmissionRequest("torrent_reannounce", new Dictionary<string, object> { { "ids", "recently_active" } });
         _ = await SendRequestAsync(request);
     }
     #endregion
@@ -461,7 +464,7 @@ public class TransmissionClient : ITransmissionClient
     /// <param name="ids">Torrents id</param>
     public async Task TorrentQueueMoveTopAsync(params int[] ids)
     {
-        var request = new TransmissionRequest("queue-move-top", new Dictionary<string, object> { { "ids", ids } });
+        var request = new TransmissionRequest("queue_move_top", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
     }
 
@@ -471,7 +474,7 @@ public class TransmissionClient : ITransmissionClient
     /// <param name="ids"></param>
     public async Task TorrentQueueMoveUpAsync(params int[] ids)
     {
-        _ = await SendRequestAsync(new("queue-move-up", new Dictionary<string, object> { { "ids", ids } }));
+        _ = await SendRequestAsync(new("queue_move_up", new Dictionary<string, object> { { "ids", ids } }));
     }
 
     /// <summary>
@@ -480,7 +483,7 @@ public class TransmissionClient : ITransmissionClient
     /// <param name="ids"></param>
     public async Task TorrentQueueMoveDownAsync(params int[] ids)
     {
-        var request = new TransmissionRequest("queue-move-down", new Dictionary<string, object> { { "ids", ids } });
+        var request = new TransmissionRequest("queue_move_down", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
     }
 
@@ -490,7 +493,7 @@ public class TransmissionClient : ITransmissionClient
     /// <param name="ids"></param>
     public async Task TorrentQueueMoveBottomAsync(params int[] ids)
     {
-        var request = new TransmissionRequest("queue-move-bottom", new Dictionary<string, object> { { "ids", ids } });
+        var request = new TransmissionRequest("queue_move_bottom", new Dictionary<string, object> { { "ids", ids } });
         _ = await SendRequestAsync(request);
     }
 
@@ -511,7 +514,7 @@ public class TransmissionClient : ITransmissionClient
             { "move", move }
         };
 
-        var request = new TransmissionRequest("torrent-set-location", arguments);
+        var request = new TransmissionRequest("torrent_set_location", arguments);
         _ = await SendRequestAsync(request, Timeout.InfiniteTimeSpan);
     }
 
@@ -543,7 +546,7 @@ public class TransmissionClient : ITransmissionClient
             { "name", name }
         };
 
-        var request = new TransmissionRequest("torrent-rename-path", arguments);
+        var request = new TransmissionRequest("torrent_rename_path", arguments);
         var response = await SendRequestAsync(request);
 
         var result = response.Deserialize<RenameTorrentInfo>();
@@ -561,7 +564,7 @@ public class TransmissionClient : ITransmissionClient
     //    var arguments = new Dictionary<string, object>();
     //    arguments.Add("ids", ids);
 
-    //    var request = new TransmissionRequest("torrent-reannounce", arguments);
+    //    var request = new TransmissionRequest("torrent_reannounce", arguments);
     //    var response = SendRequest(request);
     //}
 
@@ -575,11 +578,11 @@ public class TransmissionClient : ITransmissionClient
     /// <returns>Accessible state</returns>
     public async Task<bool?> PortTestAsync()
     {
-        var request = new TransmissionRequest("port-test");
+        var request = new TransmissionRequest("port_test");
         var response = await SendRequestAsync(request);
 
         var data = response.Deserialize<JObject>();
-        var result = (bool?)data?.GetValue("port-is-open");
+        var result = (bool?)data?.GetValue("port_is_open");
         return result;
     }
 
@@ -589,11 +592,11 @@ public class TransmissionClient : ITransmissionClient
     /// <returns>Blocklist size</returns>
     public async Task<int?> BlocklistUpdateAsync()
     {
-        var request = new TransmissionRequest("blocklist-update");
+        var request = new TransmissionRequest("blocklist_update");
         var response = await SendRequestAsync(request);
 
         var data = response.Deserialize<JObject>();
-        var result = (int?)data?.GetValue("blocklist-size");
+        var result = (int?)data?.GetValue("blocklist_size");
         return result;
     }
 
@@ -608,11 +611,11 @@ public class TransmissionClient : ITransmissionClient
             { "path", path }
         };
 
-        var request = new TransmissionRequest("free-space", arguments);
+        var request = new TransmissionRequest("free_space", arguments);
         var response = await SendRequestAsync(request);
 
         var data = response.Deserialize<JObject>();
-        var result = (long?)data?.GetValue("size-bytes");
+        var result = (long?)data?.GetValue("size_bytes");
         return result;
     }
 
@@ -622,7 +625,7 @@ public class TransmissionClient : ITransmissionClient
     {
         TransmissionResponse? result;
 
-        request.Tag = ++CurrentTag;
+        request.Id = ++CurrentTag;
 
         //Prepare http web request
         HttpClient httpClient = new();
@@ -637,7 +640,7 @@ public class TransmissionClient : ITransmissionClient
             httpRequest.Headers.Add("Authorization", _authorization);
         }
 
-        httpRequest.Content = new StringContent(request.ToJson() ?? "", Encoding.UTF8, "application/json-rpc");
+        httpRequest.Content = new StringContent((_legacy ? LegacyRpc.ToJson(request) : request.ToJson()) ?? "", Encoding.UTF8, "application/json-rpc");
 
         //Send request and prepare response
         using (var httpResponse = await httpClient.SendAsync(httpRequest))
@@ -645,11 +648,16 @@ public class TransmissionClient : ITransmissionClient
             if (httpResponse.IsSuccessStatusCode)
             {
                 var responseString = await httpResponse.Content.ReadAsStringAsync();
-                result = JsonConvert.DeserializeObject<TransmissionResponse>(responseString);
+                result = _legacy ? LegacyRpc.FromJson(responseString) : JsonConvert.DeserializeObject<TransmissionResponse>(responseString);
 
-                if (result?.Result != "success")
+                if (result == null)
                 {
-                    throw new TransmissionException(result?.Result ?? "Invalid response");
+                    throw new TransmissionException("Invalid response");
+                }
+
+                if (result.Error != null)
+                {
+                    throw new TransmissionException(result.Error.Data?.ErrorString ?? result.Error.Message ?? "Invalid response");
                 }
             }
             else if (httpResponse.StatusCode == HttpStatusCode.Conflict)
@@ -665,6 +673,8 @@ public class TransmissionClient : ITransmissionClient
                     {
                         throw new TransmissionException("Session ID Error");
                     }
+
+                    _legacy = !httpResponse.Headers.Contains("X-Transmission-Rpc-Version");
 
                     result = await SendRequestAsync(request);
                 }

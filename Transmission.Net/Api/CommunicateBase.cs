@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Transmission.Net.Api;
 
@@ -8,16 +8,16 @@ namespace Transmission.Net.Api;
 public abstract class CommunicateBase
 {
     /// <summary>
-    /// Data
+    /// JSON-RPC version
     /// </summary>
-    [JsonProperty("arguments")]
-    public Dictionary<string, object>? Arguments;
+    [JsonProperty("jsonrpc")]
+    public string JsonRpc = "2.0";
 
     /// <summary>
     /// Number (id)
     /// </summary>
-    [JsonProperty("tag")]
-    public int? Tag;
+    [JsonProperty("id")]
+    public int? Id;
 
     /// <summary>
     /// Convert to JSON string
@@ -26,15 +26,5 @@ public abstract class CommunicateBase
     public virtual string? ToJson()
     {
         return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
-
-    /// <summary>
-    /// Deserialize to class
-    /// </summary>
-    /// <returns></returns>
-    public T? Deserialize<T>()
-    {
-        var argumentsString = JsonConvert.SerializeObject(Arguments);
-        return JsonConvert.DeserializeObject<T>(argumentsString);
     }
 }

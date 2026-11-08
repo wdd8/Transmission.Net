@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Transmission.Net.Api.Entity.Torrent;
 using Transmission.Net.Core.Entity;
 using Transmission.Net.Core.Entity.Torrent;
@@ -16,11 +16,11 @@ public class TorrentView : ITorrentView
     [JsonConstructor]
     internal TorrentView(
         TorrentFile[]? files,
-        TorrentFileStats[]? fileStats,
+        [JsonProperty(TorrentFields.FILE_STATS)] TorrentFileStats[]? fileStats,
         TorrentPeers[]? peers,
-        TorrentPeersFrom? peersFrom,
+        [JsonProperty(TorrentFields.PEERS_FROM)] TorrentPeersFrom? peersFrom,
         TorrentTracker[]? trackers,
-        TorrentTrackerStats[]? trackerStats)
+        [JsonProperty(TorrentFields.TRACKER_STATS)] TorrentTrackerStats[]? trackerStats)
     {
         Files = files;
         FileStats = fileStats;

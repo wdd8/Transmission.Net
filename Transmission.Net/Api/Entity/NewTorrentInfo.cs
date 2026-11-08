@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Transmission.Net.Api.Entity;
 
@@ -7,7 +7,7 @@ namespace Transmission.Net.Api.Entity;
 /// </summary>
 public class NewTorrentInfo
 {
-    public NewTorrentInfo(int id, string name, string hashString)
+    public NewTorrentInfo(int id, string name, [JsonProperty("hash_string")] string hashString)
     {
         Id = id;
         Name = name;
@@ -29,7 +29,7 @@ public class NewTorrentInfo
     /// <summary>
     /// Torrent Hash
     /// </summary>
-    [JsonProperty("hashString")]
+    [JsonProperty("hash_string")]
     public string HashString { get; set; }
 
 }

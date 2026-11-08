@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Transmission.Net.Core.Enums;
 
@@ -27,75 +27,75 @@ public interface ITorrentTrackerStats
     /// <summary>
     /// If <see cref="HasAnnounced"/>, the human-readable result of latest announce
     /// </summary>
-    [JsonProperty("lastAnnounceResult")]
+    [JsonProperty("last_announce_result")]
     string? LastAnnounceResult { get; set; }
 
     /// <summary>
     /// If <see cref="HasScraped"/>, the human-readable result of the latest scrape
     /// </summary>
-    [JsonProperty("lastScrapeResult")]
+    [JsonProperty("last_scrape_result")]
     string? LastScrapeResult { get; set; }
 
 
     /// <summary>
     /// If <see cref="HasAnnounced"/>, when the latest announce request was sent
     /// </summary>
-    [JsonProperty("lastAnnounceStartTime"), JsonConverter(typeof(UnixDateTimeConverter))]
+    [JsonProperty("last_announce_start_time"), JsonConverter(typeof(UnixDateTimeConverter))]
     DateTime? LastAnnounceStartTime { get; set; }
 
     /// <summary>
     /// If <see cref="HasAnnounced"/>, when the latest announce reply was received
     /// </summary>
-    [JsonProperty("lastAnnounceTime"), JsonConverter(typeof(UnixDateTimeConverter))]
+    [JsonProperty("last_announce_time"), JsonConverter(typeof(UnixDateTimeConverter))]
     DateTime? LastAnnounceTime { get; set; }
 
     /// <summary>
     /// If <see cref="AnnounceState"/> == <see cref="TrackerState.Waiting"/>, time of next announce
     /// </summary>
-    [JsonProperty("nextAnnounceTime"), JsonConverter(typeof(UnixDateTimeConverter))]
+    [JsonProperty("next_announce_time"), JsonConverter(typeof(UnixDateTimeConverter))]
     DateTime? NextAnnounceTime { get; set; }
 
     /// <summary>
     /// If <see cref="HasScraped"/>, when the latest scrape request was sent
     /// </summary>
-    [JsonProperty("lastScrapeStartTime"), JsonConverter(typeof(UnixDateTimeConverter))]
+    [JsonProperty("last_scrape_start_time"), JsonConverter(typeof(UnixDateTimeConverter))]
     DateTime? LastScrapeStartTime { get; set; }
 
     /// <summary>
     /// If <see cref="HasScraped"/>, when the latest scrape reply was received
     /// </summary>
-    [JsonProperty("lastScrapeTime"), JsonConverter(typeof(UnixDateTimeConverter))]
+    [JsonProperty("last_scrape_time"), JsonConverter(typeof(UnixDateTimeConverter))]
     DateTime? LastScrapeTime { get; set; }
 
     /// <summary>
     /// If <see cref="ScrapeState"/> == <see cref="TrackerState.Waiting"/>, time of next scrape
     /// </summary>
-    [JsonProperty("nextScrapeTime"), JsonConverter(typeof(UnixDateTimeConverter))]
+    [JsonProperty("next_scrape_time"), JsonConverter(typeof(UnixDateTimeConverter))]
     DateTime? NextScrapeTime { get; set; }
 
 
     /// <summary>
     /// Number of times this torrent's been downloaded, or -1 if unknown
     /// </summary>
-    [JsonProperty("downloadCount")]
+    [JsonProperty("download_count")]
     int? DownloadCount { get; set; }
 
     /// <summary>
     /// If <see cref="HasAnnounced"/>, the number of peers the tracker gave us
     /// </summary>
-    [JsonProperty("lastAnnouncePeerCount")]
+    [JsonProperty("last_announce_peer_count")]
     int? LastAnnouncePeerCount { get; set; }
 
     /// <summary>
     /// Number of leechers the tracker knows of, or -1 if unknown
     /// </summary>
-    [JsonProperty("leecherCount")]
+    [JsonProperty("leecher_count")]
     int? LeecherCount { get; set; }
 
     /// <summary>
     /// Number of seeders the tracker knows of, or -1 if unknown
     /// </summary>
-    [JsonProperty("seederCount")]
+    [JsonProperty("seeder_count")]
     int? SeederCount { get; set; }
 
 
@@ -111,55 +111,55 @@ public interface ITorrentTrackerStats
     /// <summary>
     /// Whether we're announcing, waiting to announce, etc.
     /// </summary>
-    [JsonProperty("announceState")]
+    [JsonProperty("announce_state")]
     TrackerState? AnnounceState { get; set; }
 
     /// <summary>
     /// Whether we're scraping, waiting to scrape, etc.
     /// </summary>
-    [JsonProperty("scrapeState")]
+    [JsonProperty("scrape_state")]
     TrackerState? ScrapeState { get; set; }
 
 
     /// <summary>
     /// <see langword="true"/> if we've announced to this tracker during this session
     /// </summary>
-    [JsonProperty("hasAnnounced")]
+    [JsonProperty("has_announced")]
     bool? HasAnnounced { get; set; }
 
     /// <summary>
     /// <see langword="true"/> if we've scraped this tracker during this session
     /// </summary>
-    [JsonProperty("hasScraped")]
+    [JsonProperty("has_scraped")]
     bool? HasScraped { get; set; }
 
     /// <summary>
     /// Only one tracker per tier is used; the others are kept as backups
     /// </summary>
-    [JsonProperty("isBackup")]
+    [JsonProperty("is_backup")]
     bool? IsBackup { get; set; }
 
     /// <summary>
     /// If <see cref="HasAnnounced"/>, whether or not the latest announce succeeded
     /// </summary>
-    [JsonProperty("lastAnnounceSucceeded")]
+    [JsonProperty("last_announce_succeeded")]
     bool? LastAnnounceSucceeded { get; set; }
 
     /// <summary>
     /// <see langword="true"/> if the latest announce request timed out
     /// </summary>
-    [JsonProperty("lastAnnounceTimedOut")]
+    [JsonProperty("last_announce_timed_out")]
     bool? LastAnnounceTimedOut { get; set; }
 
     /// <summary>
     /// If <see cref="HasScraped"/>, whether or not the latest scrape succeeded
     /// </summary>
-    [JsonProperty("lastScrapeSucceeded")]
+    [JsonProperty("last_scrape_succeeded")]
     bool? LastScrapeSucceeded { get; set; }
 
     /// <summary>
     /// <see langword="true"/> if the latest scrape request timed out
     /// </summary>
-    [JsonProperty("lastScrapeTimedOut")]
+    [JsonProperty("last_scrape_timed_out")]
     bool? LastScrapeTimedOut { get; set; }
 }
