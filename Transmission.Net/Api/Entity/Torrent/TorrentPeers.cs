@@ -49,4 +49,10 @@ public class TorrentPeers : ITorrentPeers
 
     [JsonPropertyName("rate_to_peer")]
     public int? RateToPeer { get; set; }
+
+    [JsonPropertyName("bytes_to_client")]
+    public long? BytesToClient { get; set; }
+
+    [JsonPropertyName("bytes_to_peer")]
+    public long? BytesToPeer { get; set; }
 }

@@ -76,4 +76,14 @@ public interface ITorrentPeers
     /// Rate to peer
     /// </summary>
     int? RateToPeer { get; set; }
+
+    /// <summary>
+    /// Bytes received from the peer (Transmission 4.1.0+)
+    /// </summary>
+    long? BytesToClient { get; set; }
+
+    /// <summary>
+    /// Bytes sent to the peer (Transmission 4.1.0+)
+    /// </summary>
+    long? BytesToPeer { get; set; }
 }
